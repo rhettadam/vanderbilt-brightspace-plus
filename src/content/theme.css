@@ -1,0 +1,923 @@
+/* Vanderbilt dark theme overrides for Brightspace Daylight */
+
+:root,
+html.vandyext-dark,
+html[data-color-mode="dark"] {
+  --vandy-gold: #cfae70;
+  --vandy-gold-bright: #f4c430;
+  --vandy-black: #0f1115;
+  --vandy-surface: #171a21;
+  --vandy-surface-2: #1f2430;
+  --vandy-border: #2d3444;
+  --vandy-text: #e8eaef;
+  --vandy-muted: #9aa3b5;
+  --vandy-radius-sm: 8px;
+  --vandy-radius-md: 12px;
+  --vandy-radius-lg: 16px;
+  --vandy-focus-ring: 0 0 0 3px rgba(244, 196, 48, 0.42);
+  --vandy-focus-ring-strong: 0 0 0 3px rgba(244, 196, 48, 0.55);
+
+  /* D2L focus tokens — picked up by web components */
+  --d2l-focus-ring-color: #f4c430;
+  --d2l-focus-ring-offset: 2px;
+  --d2l-color-regolith: #0f1115;
+  --d2l-color-sylvite: #12151c;
+  --d2l-color-gypsum: #2d3444;
+  --d2l-color-mica: #3a4154;
+  --d2l-color-corundum: #4d566d;
+  --d2l-color-chromite: #6f788a;
+  --d2l-color-galena: #9aa3b5;
+  --d2l-color-tungsten: #cdd5dc;
+  --d2l-color-ferrite: #e8eaef;
+  --d2l-theme-background-color-base: #171a21;
+  --d2l-theme-background-color-elevated: #1f2430;
+  --d2l-theme-background-color-floating: #1f2430;
+  --d2l-theme-background-color-sunken: #0a0c10;
+  --d2l-theme-text-color-static-standard: #e8eaef;
+  --d2l-theme-text-color-static-subtle: #9aa3b5;
+  --d2l-theme-border-color-subtle: #2d3444;
+  --d2l-theme-border-color-standard: #3a4154;
+  --d2l-theme-brand-color-primary-default: #f4c430;
+  --d2l-theme-brand-color-primary-hover: #ffe08a;
+  --d2l-theme-text-color-interactive-default: #f4c430;
+  --d2l-theme-text-color-interactive-hover: #ffe08a;
+  --d2l-popover-default-background-color: #171a21;
+  --d2l-popover-background-color: #171a21;
+  --d2l-popover-default-border-color: #2d3444;
+  --d2l-popover-border-color: #2d3444;
+  --d2l-menu-background-color: #171a21;
+  --d2l-menu-background-color-hover: #1f2430;
+  --d2l-menu-border-color: #2d3444;
+  --d2l-menu-foreground-color: #e8eaef;
+}
+
+html,
+body {
+  background-color: var(--vandy-black) !important;
+  background: var(--vandy-black) !important;
+  background-image: none !important;
+  color: var(--vandy-text) !important;
+}
+
+/* Top navigation shell — fix white side gutters beside calendar/media bar */
+.d2l-navigation-s,
+.d2l-navigation-s::before,
+.d2l-navigation-s::after,
+.d2l-navigation-s > *,
+.d2l-navigation-centerer,
+.d2l-navigation-gutter,
+.d2l-navigation-s-wrapper,
+.d2l-navigation-s-main-wrapper,
+.d2l-navigation-s-header,
+.d2l-navigation-s-mobile-header,
+.d2l-navigation-s-personality,
+.d2l-navigation-s-button-wrapper,
+.d2l-navigation-s-group-wrapper,
+.d2l-navigation-s-link-set,
+.d2l-navigation-s-menu-wrapper,
+d2l-navigation,
+d2l-navigation-main-header,
+d2l-navigation-main-footer,
+d2l-navigation-band,
+.d2l-page-header,
+.d2l-page-main,
+.d2l-page-main-padding,
+.d2l-container-primary,
+.d2l-container-secondary,
+.d2l-page-message-container,
+.d2l-application,
+.d2l-body-main,
+.d2l-page-view,
+.d2l-page-view-container {
+  background-color: var(--vandy-black) !important;
+  background: var(--vandy-black) !important;
+  background-image: none !important;
+  color: var(--vandy-text) !important;
+}
+
+.d2l-navigation-s-header,
+.d2l-navigation-s-wrapper,
+.d2l-navigation-s-main-wrapper,
+.d2l-navigation-s-button-wrapper,
+.d2l-navigation-s-personality,
+.d2l-navigation-s-mobile-header,
+.d2l-branding-dark-foreground-compact,
+header.d2l-navigation-s-header {
+  background-color: var(--vandy-black) !important;
+  background: linear-gradient(90deg, #0f1115 0%, #1a1520 45%, #0f1115 100%) !important;
+  background-image: none !important;
+  border-bottom: 1px solid rgba(207, 174, 112, 0.35) !important;
+}
+
+/* Desire2Improve-style navbar cleanup:
+   these elements often render as white/gray gutters on Brightspace home. */
+.d2l-navigation-band,
+.d2l-navigation-shadow-drop-border,
+.d2l-navigation-shadow-gradient {
+  display: none !important;
+}
+
+.d2l-navigation-s,
+.d2l-navigation-s-no-login {
+  background: var(--vandy-black) !important;
+}
+
+.d2l-navigation-s-main,
+d2l-navigation-bottom-bar,
+d2l-navigation-main-footer {
+  background: var(--vandy-surface) !important;
+}
+
+/* Exact Brightspace branding/footer strip elements from Desire2Improve */
+div.d2l-navigation-main-ib-bottom-cap,
+.d2l-navigation-main-ib-pully,
+.d2l-branding-navigation-background-color,
+d2l-labs-navigation-main-footer,
+d2l-labs-navigation-main-footer.d2l-branding-navigation-background-color,
+d2l-labs-navigation-main-footer .d2l-branding-navigation-background-color {
+  background-color: var(--vandy-black) !important;
+  background: var(--vandy-black) !important;
+  background-image: none !important;
+  border-color: transparent !important;
+}
+
+/* Mirror Desire2Improve full-width/nav container treatment to remove side bars */
+.d2l-max-width,
+.d2l-page-bg,
+.max-width.d2l-simple-overlay,
+.daylight iframe.d2l-navbar-margin {
+  background-color: var(--vandy-black) !important;
+}
+
+.d2l-navigation-s .d2l-max-width,
+.d2l-navigation-centerer .d2l-max-width,
+.d2l-navigation-s .d2l-page-bg,
+.d2l-navigation-centerer .d2l-page-bg {
+  max-width: none !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  background: var(--vandy-black) !important;
+  background-image: none !important;
+}
+
+.d2l-homepage,
+.d2l-homepage-main,
+.d2l-homepage-container,
+.d2l-my-courses-container,
+.d2l-my-courses-content,
+.d2l-enrollments-grid,
+.d2l-enrollments-container,
+.d2l-enrollments-list,
+.d2l-enrollment-card-grid,
+.d2l-tabs-container,
+.d2l-tabs-layout,
+.d2l-tabs-wrapper {
+  background-color: var(--vandy-black) !important;
+  color: var(--vandy-text) !important;
+}
+
+/* Course cards — border/radius/hover live inside d2l-card shadow DOM only */
+d2l-card,
+d2l-enrollment-card {
+  color: var(--vandy-text) !important;
+}
+
+.d2l-enrollment-card-container,
+.d2l-enrollment-card-link,
+.d2l-enrollment-card-header,
+.d2l-enrollment-card-content,
+.d2l-enrollment-card-footer,
+.d2l-card-grid,
+.d2l-card-grid-item {
+  color: var(--vandy-text) !important;
+}
+
+/* Hidden homepage widgets (see content.js + settings.hiddenHomepageWidgets) */
+.vandyext-hidden-widget {
+  display: none !important;
+}
+
+.d2l-navigation-s-link,
+.d2l-navigation-s-link-main,
+.d2l-navigation-s-link-wrapper,
+.d2l-navigation-s-group-wrapper,
+.d2l-navigation-s-item,
+.d2l-navigation-s-text,
+.d2l-navigation-s-personality-text,
+.d2l-navigation-s-logo-text {
+  color: var(--vandy-text) !important;
+}
+
+.d2l-navigation-s-link:hover,
+.d2l-navigation-s-link:focus,
+.d2l-navigation-s-link-main:hover {
+  color: var(--vandy-gold-bright) !important;
+}
+
+/* Nav flyouts: notifications, messages, profile, etc. */
+d2l-dropdown,
+d2l-dropdown-content,
+d2l-dropdown-menu,
+d2l-menu,
+d2l-menu-item,
+d2l-menu-item-link,
+.d2l-floating-container,
+.vui-dropdown-menu,
+.d2l-messagebucket-button-container,
+.d2l-datalist-container,
+.d2l-datalist,
+.d2l-datalist-item,
+.d2l-datalist-item-content,
+.vui-list,
+.vui-list > li {
+  background-color: var(--vandy-surface) !important;
+  background: var(--vandy-surface) !important;
+  border-color: var(--vandy-border) !important;
+  color: var(--vandy-text) !important;
+}
+
+.daylight .d2l-messagebucket-button-container {
+  border: none !important;
+}
+
+.daylight .d2l-messagebucket-button-container .d2l-datalist-container,
+.daylight .d2l-messagebucket-button-container + div .d2l-datalist-container,
+[id^="AB_DL_PH_"] .d2l-datalist-container,
+.d2l-minibar-menu,
+.d2l-minibar-menu-content {
+  background: transparent !important;
+  border: none !important;
+}
+
+.vui-dropdown-menu > ul > li,
+.vui-dropdown-menu-item-link {
+  border: none !important;
+  color: var(--vandy-text) !important;
+}
+
+.vui-dropdown-menu > ul > li.vui-dropdown-menu-item-focus,
+.vui-dropdown-menu > ul > li.vui-dropdown-menu-item-focus .vui-dropdown-menu-item-link {
+  background: var(--vandy-surface-2) !important;
+  color: var(--vandy-gold-bright) !important;
+}
+
+d2l-menu-item:hover,
+d2l-menu-item:focus,
+d2l-menu-item-link:hover,
+d2l-menu-item-link:focus {
+  background: var(--vandy-surface-2) !important;
+}
+
+/* Nav flyouts — notifications, messages, profile, calendar popover */
+.d2l-datalist-item-content,
+.d2l-datalist-item-content-first,
+.d2l-datalist-item-actionable,
+.d2l-list-item-action-hover,
+.d2l-user-profile-card,
+.d2l-minibar-menu-content,
+.d2l-messagebucket-header,
+.d2l-messagebucket-footer {
+  background-color: var(--vandy-surface) !important;
+  border-color: var(--vandy-border) !important;
+  color: var(--vandy-text) !important;
+}
+
+.d2l-datalist-item-content:hover,
+.d2l-datalist-item-actionable:hover,
+.d2l-list-item-action-hover:hover,
+li.d2l-datalist-item.d2l-datalist-item-actionable:hover {
+  background-color: var(--vandy-surface-2) !important;
+  color: var(--vandy-gold-bright) !important;
+}
+
+.d2l-datalist-item-unread .d2l-datalist-item-content,
+.d2l-datalist-item-unread .d2l-datalist-item-content-first {
+  box-shadow: inset 3px 0 0 var(--vandy-gold-bright) !important;
+  background-color: rgba(244, 196, 48, 0.06) !important;
+}
+
+.d2l-navigation-s-menu-item-root,
+d2l-menu-item-link.d2l-navigation-s-menu-item-root {
+  color: var(--vandy-text) !important;
+}
+
+.d2l-navigation-s-menu-item-root:hover,
+d2l-menu-item-link.d2l-navigation-s-menu-item-root:hover {
+  color: var(--vandy-gold-bright) !important;
+}
+
+/* Calendar icon popover (mini calendar in nav) */
+d2l-calendar,
+.d2l-calendar-mini-head,
+.d2l-calendar-mini-head th,
+.d2l-calendar-mini-month-label,
+.d2l-calendar-mini-year-label,
+td.d2l-calendar-mini-day {
+  background-color: var(--vandy-surface) !important;
+  color: var(--vandy-text) !important;
+  border-color: var(--vandy-border) !important;
+}
+
+td.d2l-calendar-mini-day:hover {
+  background-color: rgba(207, 174, 112, 0.16) !important;
+  color: var(--vandy-gold-bright) !important;
+}
+
+td.d2l-calendar-mini-today,
+.d2l-calendar-mini-today {
+  background-color: rgba(207, 174, 112, 0.22) !important;
+  color: var(--vandy-gold-bright) !important;
+}
+
+/* Course selector + pinned courses */
+.d2l-course-selector-item,
+.d2l-course-selector-item-content {
+  background-color: var(--vandy-surface) !important;
+  color: var(--vandy-text) !important;
+  border-color: var(--vandy-border) !important;
+}
+
+.d2l-course-selector-item:hover,
+div.d2l-course-selector-item.d2l-course-selector-item-pinned:hover {
+  background-color: var(--vandy-surface-2) !important;
+}
+
+.d2l-course-selector-item-pinned .d2l-icon,
+.d2l-course-selector-item-pinned d2l-icon,
+d2l-button-icon[icon="tier1:pin"],
+d2l-button-icon[icon="tier1:pin-filled"],
+d2l-button-icon[icon="tier1:unpin"] {
+  color: var(--vandy-gold-bright) !important;
+  --d2l-button-icon-fill-color: #f4c430 !important;
+  --d2l-theme-icon-color-standard: #f4c430 !important;
+}
+
+/* Course card hierarchy (light DOM slotted content) */
+d2l-card .d2l-line.d2l-body-compact,
+d2l-enrollment-card .d2l-line.d2l-body-compact,
+.d2l-card-subtitle,
+.d2l-enrollment-card-subtitle {
+  color: var(--vandy-muted) !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+}
+
+d2l-card .d2l-heading,
+d2l-enrollment-card .d2l-heading {
+  font-weight: 650 !important;
+}
+
+/* Cards, widgets, panels (course tiles styled separately above) */
+.d2l-widget,
+.d2l-widget-content,
+.d2l-widget-header,
+.d2l-widget-body,
+.d2l-box,
+.d2l-box-layout,
+.d2l-panel,
+.d2l-panel-content,
+.d2l-dropdown-content,
+.d2l-dropdown-content-top,
+.d2l-dropdown-content-bottom,
+.d2l-dialog,
+.d2l-dialog-content,
+.d2l-dialog-top,
+.d2l-dialog-bottom,
+.d2l-labs-grid,
+.d2l-labs-grid-item,
+d2l-dialog,
+d2l-dialog-confirm,
+d2l-dropdown-content {
+  background-color: var(--vandy-surface) !important;
+  color: var(--vandy-text) !important;
+  border-color: var(--vandy-border) !important;
+  border-radius: var(--vandy-radius-md) !important;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6,
+.d2l-heading,
+.d2l-heading-1,
+.d2l-heading-2,
+.d2l-heading-3,
+.d2l-heading-4,
+.d2l-label-text,
+.d2l-body,
+.d2l-body-compact,
+.d2l-body-small,
+.d2l-link,
+.d2l-link-main,
+.d2l-html-block,
+.d2l-html-block p,
+.d2l-html-block li,
+.d2l-html-block span {
+  color: var(--vandy-text) !important;
+}
+
+.d2l-link,
+.d2l-link-main,
+a:not(.vandyext-link):not(.vandyext-rmp-link):not(.vandyext-secondary-link) {
+  color: var(--vandy-gold-bright) !important;
+}
+
+.d2l-link:hover,
+.d2l-link-main:hover,
+a:not(.vandyext-link):not(.vandyext-rmp-link):not(.vandyext-secondary-link):hover {
+  color: color-mix(in srgb, var(--vandy-gold-bright) 80%, white) !important;
+}
+
+/* Forms & inputs */
+input,
+textarea,
+select,
+.d2l-input,
+.d2l-textarea,
+.d2l-select,
+.d2l-dropdown,
+.d2l-dropdown-opener,
+.d2l-floating-container,
+.d2l-floating-container-content {
+  background-color: var(--vandy-surface-2) !important;
+  color: var(--vandy-text) !important;
+  border-color: var(--vandy-border) !important;
+  border-radius: var(--vandy-radius-sm) !important;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease !important;
+}
+
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+select:focus-visible,
+.d2l-input:focus,
+.d2l-input:focus-visible,
+.d2l-textarea:focus,
+.d2l-textarea:focus-visible,
+.d2l-select:focus,
+.d2l-select:focus-visible {
+  outline: none !important;
+  border-color: rgba(244, 196, 48, 0.55) !important;
+  box-shadow: var(--vandy-focus-ring) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--vandy-muted) !important;
+}
+
+/* Tables & lists */
+table,
+thead,
+tbody,
+tr,
+td,
+th,
+.d2l-table,
+.d2l-table-row,
+.d2l-table-cell,
+.d2l-datalist,
+.d2l-datalist-item {
+  background-color: var(--vandy-surface) !important;
+  color: var(--vandy-text) !important;
+  border-color: var(--vandy-border) !important;
+}
+
+tr:hover td,
+.d2l-datalist-item:hover {
+  background-color: var(--vandy-surface-2) !important;
+}
+
+/* Buttons (exclude d2l-button-icon hosts — styled in shadow-theme.js) */
+button,
+.d2l-button,
+.d2l-button-main,
+.d2l-button-subtle,
+.d2l-button-filter {
+  background-color: var(--vandy-surface-2) !important;
+  color: var(--vandy-text) !important;
+  border-color: var(--vandy-border) !important;
+  border-radius: var(--vandy-radius-sm) !important;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease !important;
+}
+
+button:focus,
+button:focus-visible,
+.d2l-button:focus,
+.d2l-button:focus-visible,
+.d2l-button-main:focus,
+.d2l-button-main:focus-visible,
+.d2l-button-subtle:focus,
+.d2l-button-subtle:focus-visible,
+.d2l-button-filter:focus,
+.d2l-button-filter:focus-visible {
+  outline: none !important;
+  border-color: rgba(244, 196, 48, 0.55) !important;
+  box-shadow: var(--vandy-focus-ring) !important;
+}
+
+d2l-button:focus-within,
+d2l-button-subtle:focus-within,
+d2l-button-icon:focus-within {
+  --d2l-focus-ring-color: #f4c430 !important;
+}
+
+/*
+ * Desire2Improve / D2L++ (Hacks.css): Brightspace often wraps the course-card
+ * "⋮" menu in <d2l-dropdown> with a native <button class="d2l-button-icon"> —
+ * not <d2l-button-icon>. Our global `button` rule above paints that gray; D2I
+ * clears it with `d2l-dropdown button.d2l-button-icon { background: none }`.
+ */
+d2l-dropdown button.d2l-button-icon,
+d2l-card d2l-dropdown button.d2l-button-icon,
+d2l-enrollment-card d2l-dropdown button.d2l-button-icon,
+.d2l-my-courses-container d2l-dropdown button.d2l-button-icon,
+.d2l-enrollments-container d2l-dropdown button.d2l-button-icon,
+.d2l-enrollment-card-grid d2l-dropdown button.d2l-button-icon,
+.d2l-homepage d2l-dropdown button.d2l-button-icon {
+  background: none !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  color: var(--vandy-gold-bright) !important;
+}
+
+d2l-dropdown button.d2l-button-icon:hover,
+d2l-dropdown button.d2l-button-icon:focus {
+  border: 1px solid rgba(207, 174, 112, 0.45) !important;
+  box-shadow: none !important;
+  background-color: rgba(207, 174, 112, 0.16) !important;
+}
+
+/* Same pattern if the opener is a plain button without the dropdown wrapper */
+d2l-card button.d2l-button-icon,
+d2l-enrollment-card button.d2l-button-icon,
+.d2l-my-courses-container button.d2l-button-icon,
+.d2l-enrollments-container button.d2l-button-icon {
+  background: none !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  color: var(--vandy-gold-bright) !important;
+}
+
+/* Course card "three dots" actions: transparent default, gold dots */
+d2l-card d2l-button-icon,
+d2l-enrollment-card d2l-button-icon,
+.d2l-card d2l-button-icon,
+.d2l-enrollment-card d2l-button-icon,
+.d2l-card .d2l-button-icon,
+.d2l-enrollment-card .d2l-button-icon,
+.d2l-homepage d2l-button-icon,
+.d2l-enrollments-container d2l-button-icon,
+.d2l-my-courses-container d2l-button-icon,
+.d2l-enrollment-card-grid d2l-button-icon {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  --d2l-button-icon-background-color: transparent !important;
+  --d2l-button-icon-background-color-default: transparent !important;
+  --d2l-button-icon-background-color-hover-default: rgba(207, 174, 112, 0.16) !important;
+  --d2l-theme-background-color-interactive-tertiary-default: transparent !important;
+  --d2l-theme-background-color-interactive-secondary-default: transparent !important;
+  --d2l-button-icon-fill-color: #f4c430 !important;
+  --d2l-button-icon-fill-color-hover: #ffe08a !important;
+  --d2l-theme-icon-color-standard: #f4c430 !important;
+}
+
+d2l-card d2l-button-icon:hover,
+d2l-card d2l-button-icon:focus,
+d2l-enrollment-card d2l-button-icon:hover,
+d2l-enrollment-card d2l-button-icon:focus,
+.d2l-card .d2l-button-icon:hover,
+.d2l-card .d2l-button-icon:focus,
+.d2l-enrollment-card .d2l-button-icon:hover,
+.d2l-enrollment-card .d2l-button-icon:focus {
+  background-color: rgba(207, 174, 112, 0.16) !important;
+}
+
+.d2l-button-main,
+button[type="submit"]:not(.vandyext-rmp-submit) {
+  background: linear-gradient(180deg, #3a3020 0%, #2a2318 100%) !important;
+  border-color: color-mix(in srgb, var(--vandy-gold) 45%, transparent) !important;
+  color: var(--vandy-gold-bright) !important;
+}
+
+/* Keep utility icons/profile/settings in header visually flush */
+.d2l-navigation-s button,
+.d2l-navigation-s [role="button"],
+.d2l-navigation-s .d2l-button-icon,
+.d2l-navigation-s .d2l-navigation-button,
+.d2l-navigation-s .d2l-navigation-button-group > * {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Also zero-out D2L icon button host backgrounds via CSS vars */
+.d2l-navigation-s d2l-button-icon,
+.d2l-navigation-s d2l-button-icon[theme="dark"],
+.d2l-navigation-s d2l-button-icon[translucent] {
+  background: transparent !important;
+  background-color: transparent !important;
+  --d2l-button-icon-background-color-default: transparent !important;
+  --d2l-button-icon-background-color-hover-default: transparent !important;
+  --d2l-theme-background-color-interactive-tertiary-default: transparent !important;
+  --d2l-theme-background-color-interactive-tertiary-hover: transparent !important;
+}
+
+/* Nav icon buttons: keep flush, but show a subtle gold focus ring */
+.d2l-navigation-s button:focus-visible,
+.d2l-navigation-s [role="button"]:focus-visible,
+.d2l-navigation-s d2l-button-icon:focus-within {
+  box-shadow: 0 0 0 2px rgba(244, 196, 48, 0.35) !important;
+}
+
+/* Ensure full-width header band (no white side bars) */
+body > header,
+body > header * {
+  background-color: var(--vandy-black) !important;
+  background: var(--vandy-black) !important;
+  background-image: none !important;
+}
+
+/* Course tiles accent */
+.d2l-card-header,
+.d2l-enrollment-card-header {
+  border-bottom: 1px solid rgba(207, 174, 112, 0.2) !important;
+}
+
+/* Scrollbars — main document, nested scroll areas, and same-origin iframes */
+html,
+body,
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3a4154 var(--vandy-black);
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--vandy-black);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #3a4154;
+  border-radius: 999px;
+  border: 2px solid var(--vandy-black);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #cfae70;
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--vandy-black);
+}
+
+/* Calendar tool (/d2l/le/calendar) — scoped via .vandyext-calendar on <html> */
+html.vandyext-calendar,
+html.vandyext-calendar body,
+html.vandyext-calendar .d2l-body,
+html.vandyext-calendar .d2l-body-flex,
+html.vandyext-calendar .d2l-column-flip,
+html.vandyext-calendar .d2l-page-main,
+html.vandyext-calendar .d2l-page-main-padding,
+html.vandyext-calendar .d2l-container-primary,
+html.vandyext-calendar .d2l-box-layout,
+html.vandyext-calendar .d2l-min-width,
+html.vandyext-calendar .d2l-max-width {
+  background-color: var(--vandy-black) !important;
+  background: var(--vandy-black) !important;
+  color: var(--vandy-text) !important;
+}
+
+/* Right sidebar (mini calendar + tasks) */
+html.vandyext-calendar .d2l-column-flip-side,
+html.vandyext-calendar .d2l-column-side-bg,
+html.vandyext-calendar .d2l-column-side-padding,
+html.vandyext-calendar .d2l-le-calendar-sep,
+html.vandyext-calendar .d2l-panel,
+html.vandyext-calendar .vui-changed {
+  background-color: var(--vandy-surface) !important;
+  background: var(--vandy-surface) !important;
+  color: var(--vandy-text) !important;
+  border-color: var(--vandy-border) !important;
+}
+
+html.vandyext-calendar .d2l-column-side-bg {
+  box-shadow: inset 1px 0 0 var(--vandy-border) !important;
+}
+
+/* View tabs: Agenda, Day, Week, Month, List */
+html.vandyext-calendar .d2l-button-filter,
+html.vandyext-calendar a.vui-button,
+html.vandyext-calendar .vui-button {
+  background-color: var(--vandy-surface-2) !important;
+  color: var(--vandy-text) !important;
+  border-color: var(--vandy-border) !important;
+  border-radius: var(--vandy-radius-sm) !important;
+}
+
+html.vandyext-calendar .d2l-button-filter-selected,
+html.vandyext-calendar .d2l-button-filter.d2l-button-filter-selected {
+  background-color: rgba(207, 174, 112, 0.2) !important;
+  color: var(--vandy-gold-bright) !important;
+  border-color: rgba(207, 174, 112, 0.45) !important;
+}
+
+html.vandyext-calendar .d2l-iterator-button {
+  background: transparent !important;
+  border-color: var(--vandy-border) !important;
+  color: var(--vandy-text) !important;
+}
+
+html.vandyext-calendar .d2l-iterator-button:hover,
+html.vandyext-calendar .d2l-iterator-button:focus {
+  background-color: rgba(207, 174, 112, 0.16) !important;
+  color: var(--vandy-gold-bright) !important;
+  border-color: rgba(207, 174, 112, 0.45) !important;
+}
+
+/* Main month grid */
+html.vandyext-calendar .d2l-le-calendar-out th,
+html.vandyext-calendar .d2l-le-calendar-out td,
+html.vandyext-calendar td.d2l-grid-cell,
+html.vandyext-calendar td.d_gc,
+html.vandyext-calendar td.d_gn,
+html.vandyext-calendar td.d_gt,
+html.vandyext-calendar tbody tr th,
+html.vandyext-calendar tbody tr td {
+  background-color: var(--vandy-surface) !important;
+  color: var(--vandy-text) !important;
+  border-color: var(--vandy-border) !important;
+}
+
+html.vandyext-calendar td.d2l-le-calendar-month-other,
+html.vandyext-calendar .d2l-le-calendar-month-other {
+  background-color: var(--vandy-black) !important;
+  color: var(--vandy-muted) !important;
+}
+
+html.vandyext-calendar td.d2l-le-calendar-weekend,
+html.vandyext-calendar th.d2l-le-calendar-weekend,
+html.vandyext-calendar .d2l-le-calendar-week-header.d2l-le-calendar-weekend {
+  background-color: var(--vandy-black) !important;
+  color: var(--vandy-muted) !important;
+}
+
+html.vandyext-calendar td.d2l-le-calendar-today,
+html.vandyext-calendar .d2l-le-calendar-today {
+  background-color: var(--vandy-surface-2) !important;
+  color: var(--vandy-gold-bright) !important;
+}
+
+/* Selected day — fix white/gray wash with invisible text */
+html.vandyext-calendar td.d2l-le-calendar-month-selected,
+html.vandyext-calendar .d2l-le-calendar-month-selected,
+html.vandyext-calendar td.d2l-le-calendar-today.d2l-le-calendar-month-selected {
+  background-color: rgba(207, 174, 112, 0.24) !important;
+  color: var(--vandy-gold-bright) !important;
+  box-shadow: inset 0 0 0 2px rgba(244, 196, 48, 0.5) !important;
+}
+
+html.vandyext-calendar td.d2l-le-calendar-month-selected *,
+html.vandyext-calendar td.d2l-le-calendar-today.d2l-le-calendar-month-selected * {
+  color: inherit !important;
+}
+
+/* Mini calendar (sidebar) */
+html.vandyext-calendar td.d2l-calendar-mini-day,
+html.vandyext-calendar .d2l-calendar-mini-day {
+  background-color: var(--vandy-surface-2) !important;
+  color: var(--vandy-text) !important;
+  border-radius: 6px !important;
+}
+
+html.vandyext-calendar td.d2l-calendar-mini-day:hover {
+  background-color: rgba(207, 174, 112, 0.16) !important;
+  color: var(--vandy-gold-bright) !important;
+}
+
+html.vandyext-calendar .d2l-calendar-mini-head,
+html.vandyext-calendar .d2l-calendar-mini-head th,
+html.vandyext-calendar .d2l-calendar-mini-month-label,
+html.vandyext-calendar .d2l-calendar-mini-year-label {
+  background-color: transparent !important;
+  color: var(--vandy-muted) !important;
+}
+
+/* Tasks + search */
+html.vandyext-calendar .d2l-editable,
+html.vandyext-calendar .d2l-editable-placeholder,
+html.vandyext-calendar div.d2l-editable,
+html.vandyext-calendar input[type="search"],
+html.vandyext-calendar input[type="text"] {
+  background-color: var(--vandy-surface-2) !important;
+  color: var(--vandy-text) !important;
+  border-color: var(--vandy-border) !important;
+  border-radius: var(--vandy-radius-sm) !important;
+}
+
+html.vandyext-calendar .d2l-heading,
+html.vandyext-calendar h1,
+html.vandyext-calendar h2,
+html.vandyext-calendar h3,
+html.vandyext-calendar label,
+html.vandyext-calendar .d2l-label-text {
+  color: var(--vandy-text) !important;
+}
+
+html.vandyext-calendar a.d2l-link,
+html.vandyext-calendar a.d2l-link-main {
+  color: var(--vandy-gold-bright) !important;
+}
+
+html.vandyext-calendar .d2l-le-calendar-event,
+html.vandyext-calendar .d2l-le-calendar-event-link,
+html.vandyext-calendar a.d2l-le-calendar-event {
+  color: #9ec5ff !important;
+}
+
+/* —— Settings-driven layout & polish (see settings-runtime.js) —— */
+
+html.vandyext-fullwidth .d2l-max-width,
+html.vandyext-fullwidth .d2l-page-bg,
+html.vandyext-fullwidth .max-width.d2l-simple-overlay,
+html.vandyext-fullwidth .daylight iframe.d2l-navbar-margin,
+html.vandyext-fullwidth .d2l-navigation-s .d2l-max-width,
+html.vandyext-fullwidth .d2l-navigation-centerer .d2l-max-width {
+  max-width: none !important;
+  width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+html.vandyext-no-focus-rings *:focus-visible {
+  box-shadow: none !important;
+  outline: revert !important;
+}
+
+html.vandyext-no-scrollbars *,
+html.vandyext-no-scrollbars html,
+html.vandyext-no-scrollbars body {
+  scrollbar-width: auto !important;
+}
+
+html.vandyext-no-scrollbars *::-webkit-scrollbar {
+  display: revert !important;
+}
+
+html.vandyext-no-card-hover d2l-card:hover,
+html.vandyext-no-card-hover d2l-enrollment-card:hover {
+  box-shadow: none !important;
+}
+
+html.vandyext-no-banner-overlay .d2l-card-header-image::after,
+html.vandyext-no-banner-overlay .d2l-card-image::after,
+html.vandyext-no-banner-overlay .d2l-enrollment-card-image::after,
+html.vandyext-no-banner-overlay .d2l-card-banner::after,
+html.vandyext-no-banner-overlay .d2l-enrollment-card-banner::after {
+  display: none !important;
+}
+
+html.vandyext-no-pin-gold d2l-button-icon[icon="tier1:pin"],
+html.vandyext-no-pin-gold d2l-button-icon[icon="tier1:pin-filled"],
+html.vandyext-no-pin-gold d2l-button-icon[icon="tier1:unpin"] {
+  --d2l-button-icon-fill-color: inherit !important;
+  --d2l-theme-icon-color-standard: inherit !important;
+}
+
+html.vandyext-no-widget-hide .vandyext-hidden-widget {
+  display: revert !important;
+}
+
+html.vandyext-preset-midnight .d2l-navigation-s-header,
+html.vandyext-preset-midnight header.d2l-navigation-s-header {
+  border-bottom-color: rgba(126, 184, 218, 0.35) !important;
+}
+
+html.vandyext-preset-amethyst .d2l-navigation-s-header,
+html.vandyext-preset-amethyst header.d2l-navigation-s-header {
+  border-bottom-color: rgba(196, 160, 255, 0.35) !important;
+}
+
+html.vandyext-preset-forest .d2l-navigation-s-header,
+html.vandyext-preset-forest header.d2l-navigation-s-header {
+  border-bottom-color: rgba(126, 207, 90, 0.35) !important;
+}
+
+html.vandyext-preset-slate .d2l-navigation-s-header,
+html.vandyext-preset-slate header.d2l-navigation-s-header {
+  border-bottom-color: rgba(200, 205, 216, 0.25) !important;
+}

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vandy Brightspace+ Settings</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="options-overlay"></div>
+    <div class="options-shell">
+      <header class="options-header">
+        <div class="options-brand">
+          <p class="options-kicker">Vanderbilt</p>
+          <h1>Brightspace+ Settings</h1>
+          <p class="options-subtitle">Customize theme, layout, and features for brightspace.vanderbilt.edu</p>
+        </div>
+        <img class="options-logo" src="../../assets/custom-vandy-logo.png" alt="Vanderbilt" />
+      </header>
+
+      <nav class="options-nav" role="tablist" aria-label="Settings sections">
+        <button type="button" class="options-nav-btn active" data-tab="themes">Themes</button>
+        <button type="button" class="options-nav-btn" data-tab="layout">Layout</button>
+        <button type="button" class="options-nav-btn" data-tab="features">Features</button>
+        <button type="button" class="options-nav-btn" data-tab="polish">Polish</button>
+        <button type="button" class="options-nav-btn" data-tab="about">About</button>
+      </nav>
+
+      <main class="options-main">
+        <!-- Themes -->
+        <section id="panel-themes" class="options-panel active" data-panel="themes">
+          <div class="panel-intro">
+            <h2>Color themes</h2>
+            <p>Pick a preset accent palette. Changes apply instantly on open Brightspace tabs.</p>
+          </div>
+
+          <label class="toggle-row master-toggle">
+            <span>
+              <strong>Dark mode</strong>
+              <small>Master switch for all Vandy Brightspace+ styling</small>
+            </span>
+            <input id="setting-dark-mode" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <div id="theme-grid" class="theme-grid"></div>
+        </section>
+
+        <!-- Layout -->
+        <section id="panel-layout" class="options-panel" data-panel="layout" hidden>
+          <div class="panel-intro">
+            <h2>Layout &amp; display</h2>
+            <p>Adjust page width, text size, and course card banners.</p>
+          </div>
+
+          <div class="field-row">
+            <label for="setting-font-size">
+              <strong>Font size</strong>
+              <small>Base size on Brightspace pages</small>
+            </label>
+            <div class="field-control">
+              <input id="setting-font-size" type="range" min="12" max="22" step="1" value="16" />
+              <span id="font-size-value" class="field-value">16px</span>
+            </div>
+          </div>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Full width</strong>
+              <small>Remove max-width gutters for edge-to-edge content</small>
+            </span>
+            <input id="setting-full-width" type="checkbox" />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <div class="field-row">
+            <label for="setting-banner-brightness">
+              <strong>Banner brightness</strong>
+              <small>Course card header images</small>
+            </label>
+            <div class="field-control">
+              <input id="setting-banner-brightness" type="range" min="20" max="150" step="5" value="100" />
+              <span id="banner-brightness-value" class="field-value">100%</span>
+            </div>
+          </div>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Remove course banners</strong>
+              <small>Hide banner images on enrollment cards entirely</small>
+            </span>
+            <input id="setting-remove-banner" type="checkbox" />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Banner text gradient</strong>
+              <small>Dark overlay so titles read on any image</small>
+            </span>
+            <input id="setting-banner-overlay" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+        </section>
+
+        <!-- Features -->
+        <section id="panel-features" class="options-panel" data-panel="features" hidden>
+          <div class="panel-intro">
+            <h2>Features</h2>
+            <p>Toggle extension tools and page-specific styling.</p>
+          </div>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Custom Vanderbilt logo</strong>
+              <small>Replace Brightspace nav logo</small>
+            </span>
+            <input id="setting-custom-logo" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Interior page styling</strong>
+              <small>Content sidebar, assignments, discussions, quizzes, grades</small>
+            </span>
+            <input id="setting-interior-styling" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Calendar page styling</strong>
+              <small>Dark theme for /d2l/le/calendar</small>
+            </span>
+            <input id="setting-calendar-styling" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Shadow DOM theme injection</strong>
+              <small>Dark tokens inside d2l-* web components</small>
+            </span>
+            <input id="setting-shadow-theme" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Hide homepage widgets</strong>
+              <small>Remove widgets by title on org homepage</small>
+            </span>
+            <input id="setting-hide-widgets" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <div class="field-block">
+            <label for="setting-hidden-widgets">
+              <strong>Hidden widget titles</strong>
+              <small>One title per line (case-insensitive)</small>
+            </label>
+            <textarea id="setting-hidden-widgets" rows="4" spellcheck="false">Instructor Announcements</textarea>
+          </div>
+        </section>
+
+        <!-- Polish -->
+        <section id="panel-polish" class="options-panel" data-panel="polish" hidden>
+          <div class="panel-intro">
+            <h2>Visual polish</h2>
+            <p>Fine-tune focus rings, scrollbars, and card interactions.</p>
+          </div>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Gold focus rings</strong>
+              <small>Keyboard focus highlights on inputs and buttons</small>
+            </span>
+            <input id="setting-focus-rings" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Custom scrollbars</strong>
+              <small>Thin dark scrollbars with gold hover</small>
+            </span>
+            <input id="setting-scrollbars" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Course card hover glow</strong>
+              <small>Gold border glow when hovering tiles</small>
+            </span>
+            <input id="setting-card-hover" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Gold pin stars</strong>
+              <small>Pinned course indicator color on cards</small>
+            </span>
+            <input id="setting-pin-gold" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+        </section>
+
+        <!-- About -->
+        <section id="panel-about" class="options-panel" data-panel="about" hidden>
+          <div class="panel-intro">
+            <h2>About</h2>
+            <p>Vandy Brightspace+ — unofficial Vanderbilt-focused enhancement for D2L Brightspace.</p>
+          </div>
+
+          <dl class="about-meta">
+            <dt>Version</dt>
+            <dd id="about-version">0.1.0</dd>
+            <dt>Site</dt>
+            <dd>brightspace.vanderbilt.edu</dd>
+          </dl>
+
+          <div class="about-block">
+            <h3>Disclaimer</h3>
+            <p>
+              This extension is not affiliated with Vanderbilt University, D2L, or Brightspace.
+              Use at your own discretion. Some pages may need a refresh after changing theme settings.
+            </p>
+          </div>
+
+          <div class="about-block">
+            <h3>Privacy</h3>
+            <p>
+              Settings are stored locally in your browser only. No data is sent to external servers.
+            </p>
+          </div>
+
+          <div class="about-block">
+            <h3>Inspired by</h3>
+            <p>
+              Layout and options inspired by community extensions like Desire2Improve (D2L++).
+              Built for Commodore gold on black.
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="options-footer">
+        <button id="btn-reset" type="button" class="btn btn-secondary">Reset to defaults</button>
+        <div class="options-footer-right">
+          <span id="save-status" class="save-status" aria-live="polite"></span>
+          <button id="btn-save" type="button" class="btn btn-primary">Save settings</button>
+        </div>
+      </footer>
+    </div>
+
+    <script src="../shared/settings.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>

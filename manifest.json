@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Vandy Brightspace+",
+  "version": "0.2.0",
+  "description": "Dark theme and Vanderbilt-focused tools for Vanderbilt Brightspace (D2L).",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["storage"],
+  "host_permissions": ["https://brightspace.vanderbilt.edu/*"],
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*"],
+      "matches": ["https://brightspace.vanderbilt.edu/*"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://brightspace.vanderbilt.edu/*"],
+      "js": [
+        "src/shared/settings.js",
+        "src/content/settings-runtime.js",
+        "src/content/shadow-theme.js"
+      ],
+      "css": ["src/content/theme.css", "src/content/interior-theme.css"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://brightspace.vanderbilt.edu/*"],
+      "js": ["src/content/links.js", "src/content/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Vandy Brightspace+",
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }
+}

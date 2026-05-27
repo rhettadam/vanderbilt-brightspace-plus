@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vandy Brightspace+</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="popup-header">
+      <p class="popup-kicker">Vanderbilt</p>
+      <h1 class="popup-title">Brightspace+</h1>
+      <p class="popup-subtitle">Quick links for brightspace.vanderbilt.edu</p>
+      <a id="popup-open-settings" class="popup-settings-link" href="#">Open settings</a>
+    </header>
+    <ul id="popup-links" class="popup-links"></ul>
+    <section class="popup-rmp">
+      <h2>Rate My Professor</h2>
+      <form id="popup-rmp-form">
+        <input id="popup-rmp-input" type="search" placeholder="Professor name" />
+        <button type="submit">Search</button>
+      </form>
+      <a id="popup-rmp-school" href="#" target="_blank" rel="noopener noreferrer">Browse Vanderbilt on RMP</a>
+    </section>
+    <script src="../shared/settings.js"></script>
+    <script src="../content/links.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
