@@ -13,56 +13,67 @@
   })();
 
   const HOST_CSS_VARS = {
-    "--d2l-color-regolith": "#0f1115",
-    "--d2l-color-sylvite": "#12151c",
-    "--d2l-color-gypsum": "#2d3444",
-    "--d2l-color-mica": "#3a4154",
-    "--d2l-color-corundum": "#4d566d",
-    "--d2l-color-chromite": "#6f788a",
-    "--d2l-color-galena": "#9aa3b5",
-    "--d2l-color-tungsten": "#cdd5dc",
-    "--d2l-color-ferrite": "#e8eaef",
-    "--d2l-theme-background-color-base": "#171a21",
-    "--d2l-theme-background-color-elevated": "#1f2430",
-    "--d2l-theme-background-color-floating": "#1f2430",
-    "--d2l-theme-background-color-sunken": "#0a0c10",
-    "--d2l-theme-background-color-interactive-faint-default": "#151820",
-    "--d2l-theme-background-color-interactive-faint-hover": "#181c26",
-    "--d2l-theme-background-color-interactive-secondary-default": "#0f1115",
-    "--d2l-theme-background-color-interactive-secondary-hover": "#151820",
+    /* Official Daylight primitives (do not invert — NCE text uses mica/chromite) */
+    "--d2l-color-regolith": "#f9fbff",
+    "--d2l-color-sylvite": "#f1f5fb",
+    "--d2l-color-gypsum": "#e3e9f1",
+    "--d2l-color-mica": "#cdd5dc",
+    "--d2l-color-corundum": "#b1b9be",
+    "--d2l-color-chromite": "#90989d",
+    "--d2l-color-galena": "#6e7477",
+    "--d2l-color-tungsten": "#494c4e",
+    "--d2l-color-ferrite": "#202122",
+    /* Official dark semantic surfaces/text */
+    "--d2l-theme-background-color-base": "#161718",
+    "--d2l-theme-background-color-elevated": "#202122",
+    "--d2l-theme-background-color-floating": "#202122",
+    "--d2l-theme-background-color-sunken": "#000000",
+    "--d2l-theme-background-color-interactive-faint-default": "#202122",
+    "--d2l-theme-background-color-interactive-faint-hover": "#303335",
+    "--d2l-theme-background-color-interactive-secondary-default": "#303335",
+    "--d2l-theme-background-color-interactive-secondary-hover": "#3a3f44",
     "--d2l-theme-background-color-interactive-tertiary-default": "transparent",
-    "--d2l-theme-background-color-interactive-tertiary-hover": "rgba(207, 174, 112, 0.1)",
-    "--d2l-theme-icon-color-standard": "#e8eaef",
-    "--d2l-theme-text-color-static-standard": "#e8eaef",
-    "--d2l-theme-text-color-static-subtle": "#9aa3b5",
-    "--d2l-theme-border-color-subtle": "#2d3444",
-    "--d2l-theme-border-color-standard": "#3a4154",
+    "--d2l-theme-background-color-interactive-tertiary-hover": "rgba(207, 174, 112, 0.12)",
+    "--d2l-theme-background-color-interactive-highlighted": "rgba(207, 174, 112, 0.18)",
+    "--d2l-theme-icon-color-standard": "#b1b9be",
+    "--d2l-theme-icon-color-faint": "#494c4e",
+    "--d2l-theme-icon-color-inverted": "#ffffff",
+    "--d2l-theme-text-color-static-standard": "#cdd5dc",
+    "--d2l-theme-text-color-static-subtle": "#90989d",
+    "--d2l-theme-text-color-static-faint": "#6e7477",
+    "--d2l-theme-text-color-static-inverted": "#161718",
+    "--d2l-theme-border-color-subtle": "#303335",
+    "--d2l-theme-border-color-standard": "#494c4e",
+    "--d2l-theme-border-color-emphasized": "#6e7477",
+    "--d2l-theme-border-color-focus": "#f4c430",
     "--d2l-theme-brand-color-primary-default": "#f4c430",
     "--d2l-theme-brand-color-primary-hover": "#ffe08a",
+    "--d2l-theme-brand-color-highlight": "#161718",
     "--d2l-theme-text-color-interactive-default": "#f4c430",
     "--d2l-theme-text-color-interactive-hover": "#ffe08a",
-    "--d2l-popover-default-background-color": "#171a21",
-    "--d2l-popover-background-color": "#171a21",
-    "--d2l-popover-default-border-color": "#2d3444",
-    "--d2l-popover-border-color": "#2d3444",
-    "--d2l-menu-background-color": "#171a21",
-    "--d2l-menu-background-color-hover": "#1f2430",
-    "--d2l-menu-border-color": "#2d3444",
-    "--d2l-menu-foreground-color": "#e8eaef",
+    "--d2l-theme-status-color-default": "#f4c430",
+    "--d2l-popover-default-background-color": "#202122",
+    "--d2l-popover-background-color": "#202122",
+    "--d2l-popover-default-border-color": "#303335",
+    "--d2l-popover-border-color": "#303335",
+    "--d2l-menu-background-color": "#202122",
+    "--d2l-menu-background-color-hover": "#303335",
+    "--d2l-menu-border-color": "#303335",
+    "--d2l-menu-foreground-color": "#cdd5dc",
     "--d2l-focus-ring-color": "#f4c430",
     "--d2l-focus-ring-offset": "2px",
-    "--d2l-input-background-color": "#1f2430",
-    "--d2l-input-border-color": "#2d3444",
-    "--d2l-input-text-color": "#e8eaef",
-    "--d2l-input-placeholder-text-color": "#9aa3b5",
-    "--d2l-dropdown-background-color": "#171a21",
-    "--d2l-dropdown-border-color": "#2d3444",
+    "--d2l-input-background-color": "#202122",
+    "--d2l-input-border-color": "#303335",
+    "--d2l-input-text-color": "#cdd5dc",
+    "--d2l-input-placeholder-text-color": "#90989d",
+    "--d2l-dropdown-background-color": "#202122",
+    "--d2l-dropdown-border-color": "#303335",
     "--d2l-table-row-color-hover": "rgba(207, 174, 112, 0.1)",
     "--d2l-table-row-color-selected": "rgba(207, 174, 112, 0.18)",
     "--d2l-tree-node-background-color-hover": "rgba(207, 174, 112, 0.1)",
     "--d2l-tree-node-background-color-selected": "rgba(207, 174, 112, 0.18)",
-    "--d2l-collapse-panel-header-background-color": "#1f2430",
-    "--d2l-collapse-panel-content-background-color": "#171a21",
+    "--d2l-collapse-panel-header-background-color": "#202122",
+    "--d2l-collapse-panel-content-background-color": "#161718",
   };
 
   const CARD_BANNER_OVERLAY = `
@@ -166,8 +177,8 @@
   const SHADOW_CSS_BASE = `
     ${SHADOW_POLISH_CSS}
     :host {
-      color: #e8eaef !important;
-      border-color: #2d3444 !important;
+      color: var(--d2l-theme-text-color-static-standard, #cdd5dc) !important;
+      border-color: var(--d2l-theme-border-color-subtle, #303335) !important;
     }
 
     /* Vanderbilt logo replacement inside shadow DOM (Labs nav). */
@@ -211,14 +222,14 @@
     .d2l-navigation-s-personality-text,
     span,
     label {
-      color: #e8eaef;
+      color: var(--d2l-theme-text-color-static-standard, #cdd5dc);
     }
 
     .d2l-empty-state,
     .d2l-empty-state-container,
     [class*="empty-state"] {
       background-color: transparent !important;
-      color: #9aa3b5 !important;
+      color: var(--d2l-theme-text-color-static-subtle, #90989d) !important;
     }
   `;
 
@@ -290,18 +301,29 @@
           color: #e8eaef !important;
         }
 
+        .d2l-card-actions,
+        .d2l-card-actions ::slotted(*),
+        ::slotted([slot="actions"]) {
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+
         .d2l-card-actions ::slotted(d2l-button-icon),
         .d2l-card-actions ::slotted(button),
-        .d2l-card-actions ::slotted([role="button"]) {
+        .d2l-card-actions ::slotted([role="button"]),
+        .d2l-card-actions ::slotted(d2l-dropdown) {
           background: transparent !important;
           background-color: transparent !important;
           border-color: transparent !important;
           color: #f4c430 !important;
+          opacity: 1 !important;
           --d2l-button-icon-background-color-default: transparent !important;
           --d2l-button-icon-background-color-hover-default: rgba(207, 174, 112, 0.16) !important;
           --d2l-button-icon-fill-color: #f4c430 !important;
           --d2l-button-icon-fill-color-hover: #ffe08a !important;
           --d2l-theme-icon-color-standard: #f4c430 !important;
+          --d2l-theme-background-color-interactive-secondary-default: transparent !important;
+          --d2l-theme-background-color-interactive-faint-default: transparent !important;
         }
 
         :host([href]) .d2l-card-link-container-hover,
@@ -338,7 +360,7 @@
 
     if (tag === "d2l-button-icon") {
       const cardAction = isCourseCardActionIcon(host);
-      const iconColor = cardAction ? "#f4c430" : "rgba(232, 234, 239, 0.95)";
+      const iconColor = cardAction ? "#f4c430" : "var(--d2l-theme-icon-color-standard, #b1b9be)";
       const hoverBg = cardAction
         ? "rgba(207, 174, 112, 0.16)"
         : "rgba(207, 174, 112, 0.12)";
@@ -348,12 +370,14 @@
         :host {
           background: transparent !important;
           background-color: transparent !important;
+          opacity: 1 !important;
           --d2l-button-icon-background-color: transparent !important;
           --d2l-button-icon-background-color-default: transparent !important;
           --d2l-button-icon-background-color-hover: ${hoverBg} !important;
           --d2l-button-icon-background-color-hover-default: ${hoverBg} !important;
           --d2l-theme-background-color-interactive-tertiary-default: transparent !important;
           --d2l-theme-background-color-interactive-secondary-default: transparent !important;
+          --d2l-theme-background-color-interactive-faint-default: transparent !important;
           --d2l-theme-icon-color-standard: ${iconColor};
           --d2l-button-icon-fill-color: ${iconColor} !important;
           --d2l-button-icon-fill-color-hover: ${cardAction ? "#ffe08a" : iconColor} !important;
@@ -365,16 +389,29 @@
           --d2l-button-icon-background-color-default: transparent !important;
         }
 
+        button,
         button:not(:hover):not(:focus):not([disabled]) {
           background: transparent !important;
           background-color: transparent !important;
           box-shadow: none !important;
+          opacity: 1 !important;
+        }
+
+        button svg,
+        button d2l-icon,
+        .d2l-icon,
+        svg {
+          opacity: 1 !important;
+          visibility: visible !important;
+          fill: ${iconColor} !important;
+          color: ${iconColor} !important;
         }
 
         button:hover:not([disabled]),
         button:focus:not([disabled]),
         :host([active]) button:not([disabled]) {
           background-color: ${hoverBg} !important;
+          background-image: none !important;
         }
 
         button:focus-visible {
@@ -836,13 +873,95 @@
     return presetVars?.["--vandy-gold-bright"] ?? "#f4c430";
   }
 
-  function applyDocumentDarkMode() {
-    if (!isShadowThemeEnabled()) return;
+  function buildPersistentHostCss() {
+    const vars = getMergedCssVars();
+    const varBlock = Object.entries(vars)
+      .map(([name, value]) => `    ${name}: ${value} !important;`)
+      .join("\n");
 
+    // Shared sheet applied to every open shadow root via MAIN-world persist.
+    // Host-specific rules use :host(tag) so each root only applies matching blocks.
+    return `
+:host {
+${varBlock}
+  color: var(--d2l-theme-text-color-static-standard, #cdd5dc);
+}
+
+${SHADOW_CSS_BASE}
+
+:host(d2l-card) {
+  background-color: #171a21 !important;
+  background-image: none !important;
+  color: #e8eaef !important;
+  border: 1px solid #2d3444 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+:host(d2l-enrollment-card) {
+  background-color: #171a21 !important;
+  color: #e8eaef !important;
+  border: 1px solid #2d3444 !important;
+  border-radius: 8px !important;
+  overflow: visible !important;
+}
+
+:host(d2l-navigation-s),
+:host(d2l-navigation),
+:host(d2l-navigation-band),
+:host(d2l-navigation-main-header),
+:host(d2l-navigation-main-footer),
+:host(d2l-labs-navigation-main-footer) {
+  background-color: #0f1115 !important;
+  background: #0f1115 !important;
+  background-image: none !important;
+  border-color: #2d3444 !important;
+}
+
+:host(d2l-dropdown-content),
+:host(d2l-dropdown-menu),
+:host(d2l-menu),
+:host(d2l-menu-item),
+:host(d2l-menu-item-link) {
+  --d2l-popover-default-background-color: #171a21 !important;
+  --d2l-popover-background-color: #171a21 !important;
+  --d2l-menu-background-color: #171a21 !important;
+  --d2l-menu-foreground-color: #e8eaef !important;
+  color: #e8eaef !important;
+}
+
+:host(d2l-dialog),
+:host(d2l-dialog-confirm) {
+  --d2l-focus-ring-color: #f4c430;
+}
+`.trim();
+  }
+
+  function publishPersistentSheet() {
+    const enabled = isShadowThemeEnabled();
+    document.documentElement.classList.toggle("vandyext-shadow-on", enabled);
+    document.dispatchEvent(
+      new CustomEvent("vandyext-shadow-persist", {
+        detail: {
+          enabled,
+          css: enabled ? buildPersistentHostCss() : "",
+        },
+      })
+    );
+  }
+
+  function applyDocumentDarkMode() {
     const html = document.documentElement;
+    if (!isShadowThemeEnabled()) {
+      publishPersistentSheet();
+      return;
+    }
+
     for (const [name, value] of Object.entries(getMergedCssVars())) {
       html.style.setProperty(name, value);
     }
+    publishPersistentSheet();
   }
 
   function applyHostVariables(host) {

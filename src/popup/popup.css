@@ -116,3 +116,50 @@ body {
 #popup-rmp-school:hover {
   color: #ffe08a;
 }
+
+.popup-agenda {
+  padding: 0.75rem 1rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.popup-agenda h2 {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9aa3b5;
+}
+
+.popup-agenda-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.popup-agenda-list li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.popup-agenda-list li:last-child {
+  border-bottom: none;
+}
+
+.popup-agenda-list strong {
+  display: block;
+  font-size: 0.84rem;
+  color: #e8eaef;
+}
+
+.popup-agenda-list span {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.72rem;
+  color: #9aa3b5;
+}
+
+.popup-agenda-empty {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #9aa3b5;
+}

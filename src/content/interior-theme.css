@@ -23,14 +23,64 @@ html.vandyext-interior .d2l-twopanelselector-side-bg,
 html.vandyext-interior .d2l-twopanelselector-side,
 html.vandyext-interior .d2l-twopanelselector-side-bg.d2l-twopanelselector-side-sep,
 html.vandyext-interior .d2l-twopanelselector-side.d2l-twopanelselector-side-sep,
+html.vandyext-interior .d2l-twopanelselector-padding,
+html.vandyext-interior .d2l-twopanelselector-wrapper,
 html.vandyext-interior .d2l-page-collapsepane-content,
 html.vandyext-interior .d2l-page-collapsepane-content-inner,
 html.vandyext-interior .d2l-page-collapsepane-handle,
 html.vandyext-interior .d2l-accordion-content,
 html.vandyext-interior .d2l-accordion-header {
+  background: var(--vandy-surface) !important;
   background-color: var(--vandy-surface) !important;
+  background-image: none !important;
   border-color: var(--vandy-border) !important;
   color: var(--vandy-text) !important;
+}
+
+/* Kill Brightspace white→dark fade bars on classic Content */
+html.vandyext-interior .d2l-navigation-shadow-gradient,
+html.vandyext-interior .d2l-twopanelselector-side-bg::before,
+html.vandyext-interior .d2l-twopanelselector-side-bg::after,
+html.vandyext-interior .d2l-twopanelselector-side::before,
+html.vandyext-interior .d2l-twopanelselector-side::after,
+html.vandyext-interior .d2l-page-main::before,
+html.vandyext-interior .d2l-page-main-padding::after,
+html.vandyext-interior [class*="shadow-gradient"],
+html.vandyext-interior [class*="ShadowGradient"] {
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+}
+
+html.vandyext-interior .d2l-le-content,
+html.vandyext-interior .d2l-le-content-header,
+html.vandyext-interior .d2l-content-header,
+html.vandyext-interior #ContentView,
+html.vandyext-interior #ContentModuleTree,
+html.vandyext-interior #D2L_LE_Content_TreeBrowser,
+html.vandyext-interior .d2l-page-main,
+html.vandyext-interior .d2l-page-main-padding,
+html.vandyext-interior .d2l-twopanelselector-main,
+html.vandyext-interior .d2l-twopanelselector-wrapper {
+  background: var(--vandy-black) !important;
+  background-color: var(--vandy-black) !important;
+  background-image: none !important;
+}
+
+html.vandyext-interior .d2l-twopanelselector-side-bg,
+html.vandyext-interior .d2l-twopanelselector-side,
+html.vandyext-interior .d2l-twopanelselector-side-bg.d2l-twopanelselector-side-sep,
+html.vandyext-interior .d2l-twopanelselector-side.d2l-twopanelselector-side-sep,
+html.vandyext-interior .d2l-twopanelselector-padding,
+html.vandyext-interior #ContentModuleTree,
+html.vandyext-interior #D2L_LE_Content_TreeBrowser {
+  background: var(--vandy-surface) !important;
+  background-color: var(--vandy-surface) !important;
+  background-image: none !important;
 }
 
 html.vandyext-interior .d2l-twopanelselector-side-bg.d2l-twopanelselector-side-sep {
@@ -38,6 +88,8 @@ html.vandyext-interior .d2l-twopanelselector-side-bg.d2l-twopanelselector-side-s
 }
 
 html.vandyext-interior .d2l-page-collapsepane-shadow {
+  background: transparent !important;
+  background-image: none !important;
   box-shadow: inset -1px 0 0 rgba(207, 174, 112, 0.12) !important;
 }
 
@@ -366,6 +418,85 @@ html.vandyext-interior .vui-tabmenu > .vui-tabmenu-item-select > a > .vui-tabmen
 html.vandyext-interior .vui-tabmenu > .vui-tabmenu-item-select:last-child > a > .vui-tabmenu-item-blue {
   background-color: var(--vandy-gold-bright) !important;
   border-color: var(--vandy-gold-bright) !important;
+}
+
+/* ===== New Content Experience (Lessons) =====
+   Unit/lesson lists with colored markers. Components resolve text via
+   Daylight tokens; also force readable colors on remaining light-DOM chrome. */
+html.vandyext-interior .d2l-le-content,
+html.vandyext-interior .d2l-le-lessonDisplay,
+html.vandyext-interior .d2l-lesson-header,
+html.vandyext-interior .d2l-le-content-header,
+html.vandyext-interior .d2l-content-header,
+html.vandyext-interior [class*="lesson-list"],
+html.vandyext-interior [class*="LessonList"],
+html.vandyext-interior [class*="unit-list"],
+html.vandyext-interior [class*="UnitList"],
+html.vandyext-interior [class*="content-view"],
+html.vandyext-interior [class*="content-viewer"],
+html.vandyext-interior [class*="module-list"],
+html.vandyext-interior [class*="topic-list"],
+html.vandyext-interior [class*="unit-header"],
+html.vandyext-interior [class*="UnitHeader"],
+html.vandyext-interior d2l-list,
+html.vandyext-interior d2l-list-item,
+html.vandyext-interior d2l-list-item-content,
+html.vandyext-interior d2l-collapsible-panel {
+  color: var(--d2l-theme-text-color-static-standard, var(--vandy-text)) !important;
+}
+
+/* Hardcoded light-theme greys that survive on dark chrome */
+html.vandyext-dark [style*="color: rgb(32"],
+html.vandyext-dark [style*="color:rgb(32"],
+html.vandyext-dark [style*="color: rgb(73"],
+html.vandyext-dark [style*="color:rgb(73"],
+html.vandyext-dark [style*="color: rgb(110"],
+html.vandyext-dark [style*="color:rgb(110"],
+html.vandyext-dark [style*="color: #20"],
+html.vandyext-dark [style*="color:#20"],
+html.vandyext-dark [style*="color: #49"],
+html.vandyext-dark [style*="color:#49"],
+html.vandyext-dark [style*="color: #6e"],
+html.vandyext-dark [style*="color:#6e"],
+html.vandyext-dark [style*="color: #6E"],
+html.vandyext-dark [style*="color:#6E"],
+html.vandyext-dark [style*="color:#494c4e"],
+html.vandyext-dark [style*="color: #494c4e"],
+html.vandyext-dark [style*="color:#202122"],
+html.vandyext-dark [style*="color: #202122"],
+html.vandyext-dark [style*="color:#6e7477"],
+html.vandyext-dark [style*="color: #6e7477"] {
+  color: var(--vandy-text) !important;
+}
+
+/* Lessons / content HTML bodies: prefer readable text, keep intentional accents */
+html.vandyext-interior d2l-html-block,
+html.vandyext-interior d2l-html-block-rendered,
+html.vandyext-interior .d2l-html-block,
+html.vandyext-interior .d2l-html-block-rendered,
+html.vandyext-interior .d2l-htmlblock {
+  color: var(--vandy-text) !important;
+}
+
+html.vandyext-interior d2l-html-block p,
+html.vandyext-interior d2l-html-block li,
+html.vandyext-interior d2l-html-block span,
+html.vandyext-interior d2l-html-block div,
+html.vandyext-interior .d2l-html-block p,
+html.vandyext-interior .d2l-html-block li,
+html.vandyext-interior .d2l-html-block span,
+html.vandyext-interior .d2l-html-block div,
+html.vandyext-interior .d2l-html-block-rendered p,
+html.vandyext-interior .d2l-html-block-rendered li,
+html.vandyext-interior .d2l-html-block-rendered span,
+html.vandyext-interior .d2l-html-block-rendered div {
+  color: var(--vandy-text) !important;
+}
+
+html.vandyext-interior d2l-html-block a,
+html.vandyext-interior .d2l-html-block a,
+html.vandyext-interior .d2l-html-block-rendered a {
+  color: var(--vandy-gold-bright) !important;
 }
 
 /* Floating submit bar */

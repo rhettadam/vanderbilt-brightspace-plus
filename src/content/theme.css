@@ -16,39 +16,60 @@ html[data-color-mode="dark"] {
   --vandy-radius-lg: 16px;
   --vandy-focus-ring: 0 0 0 3px rgba(244, 196, 48, 0.42);
   --vandy-focus-ring-strong: 0 0 0 3px rgba(244, 196, 48, 0.55);
-
-  /* D2L focus tokens — picked up by web components */
   --d2l-focus-ring-color: #f4c430;
   --d2l-focus-ring-offset: 2px;
-  --d2l-color-regolith: #0f1115;
-  --d2l-color-sylvite: #12151c;
-  --d2l-color-gypsum: #2d3444;
-  --d2l-color-mica: #3a4154;
-  --d2l-color-corundum: #4d566d;
-  --d2l-color-chromite: #6f788a;
-  --d2l-color-galena: #9aa3b5;
-  --d2l-color-tungsten: #cdd5dc;
-  --d2l-color-ferrite: #e8eaef;
-  --d2l-theme-background-color-base: #171a21;
-  --d2l-theme-background-color-elevated: #1f2430;
-  --d2l-theme-background-color-floating: #1f2430;
-  --d2l-theme-background-color-sunken: #0a0c10;
-  --d2l-theme-text-color-static-standard: #e8eaef;
-  --d2l-theme-text-color-static-subtle: #9aa3b5;
-  --d2l-theme-border-color-subtle: #2d3444;
-  --d2l-theme-border-color-standard: #3a4154;
+
+  /* Daylight primitives — keep official values.
+     New Content Experience (Lessons) resolves dark-mode text via
+     var(--d2l-color-mica) / semantic tokens. Inverting primitives made
+     mica a dark surface color → unreadable dark-grey text. */
+  --d2l-color-regolith: #f9fbff;
+  --d2l-color-sylvite: #f1f5fb;
+  --d2l-color-gypsum: #e3e9f1;
+  --d2l-color-mica: #cdd5dc;
+  --d2l-color-corundum: #b1b9be;
+  --d2l-color-chromite: #90989d;
+  --d2l-color-galena: #6e7477;
+  --d2l-color-tungsten: #494c4e;
+  --d2l-color-ferrite: #202122;
+
+  /* Official dark semantic tokens (+ Vanderbilt brand accents) */
+  --d2l-theme-background-color-base: #161718;
+  --d2l-theme-background-color-elevated: #202122;
+  --d2l-theme-background-color-floating: #202122;
+  --d2l-theme-background-color-sunken: #000000;
+  --d2l-theme-background-color-interactive-faint-default: #202122;
+  --d2l-theme-background-color-interactive-faint-hover: #303335;
+  --d2l-theme-background-color-interactive-secondary-default: #303335;
+  --d2l-theme-background-color-interactive-secondary-hover: #3a3f44;
+  --d2l-theme-background-color-interactive-tertiary-default: transparent;
+  --d2l-theme-background-color-interactive-tertiary-hover: rgba(207, 174, 112, 0.12);
+  --d2l-theme-background-color-interactive-highlighted: rgba(207, 174, 112, 0.18);
+  --d2l-theme-text-color-static-standard: #cdd5dc;
+  --d2l-theme-text-color-static-subtle: #90989d;
+  --d2l-theme-text-color-static-faint: #6e7477;
+  --d2l-theme-text-color-static-inverted: #161718;
+  --d2l-theme-border-color-subtle: #303335;
+  --d2l-theme-border-color-standard: #494c4e;
+  --d2l-theme-border-color-emphasized: #6e7477;
+  --d2l-theme-border-color-focus: #f4c430;
+  --d2l-theme-icon-color-standard: #b1b9be;
+  --d2l-theme-icon-color-faint: #494c4e;
+  --d2l-theme-icon-color-inverted: #ffffff;
   --d2l-theme-brand-color-primary-default: #f4c430;
   --d2l-theme-brand-color-primary-hover: #ffe08a;
+  --d2l-theme-brand-color-highlight: #161718;
   --d2l-theme-text-color-interactive-default: #f4c430;
   --d2l-theme-text-color-interactive-hover: #ffe08a;
-  --d2l-popover-default-background-color: #171a21;
-  --d2l-popover-background-color: #171a21;
-  --d2l-popover-default-border-color: #2d3444;
-  --d2l-popover-border-color: #2d3444;
-  --d2l-menu-background-color: #171a21;
-  --d2l-menu-background-color-hover: #1f2430;
-  --d2l-menu-border-color: #2d3444;
-  --d2l-menu-foreground-color: #e8eaef;
+  --d2l-theme-status-color-default: #f4c430;
+  --d2l-popover-default-background-color: #202122;
+  --d2l-popover-background-color: #202122;
+  --d2l-popover-default-border-color: #303335;
+  --d2l-popover-border-color: #303335;
+  --d2l-menu-background-color: #202122;
+  --d2l-menu-background-color-hover: #303335;
+  --d2l-menu-border-color: #303335;
+  --d2l-menu-foreground-color: #cdd5dc;
 }
 
 html,
@@ -491,8 +512,8 @@ tr:hover td,
   background-color: var(--vandy-surface-2) !important;
 }
 
-/* Buttons (exclude d2l-button-icon hosts — styled in shadow-theme.js) */
-button,
+/* Buttons (exclude icon / overflow openers — those need transparent chrome) */
+button:not(.d2l-button-icon):not([class*="button-icon"]),
 .d2l-button,
 .d2l-button-main,
 .d2l-button-subtle,
@@ -501,7 +522,48 @@ button,
   color: var(--vandy-text) !important;
   border-color: var(--vandy-border) !important;
   border-radius: var(--vandy-radius-sm) !important;
-  transition: box-shadow 0.15s ease, border-color 0.15s ease !important;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease !important;
+}
+
+button:not(.d2l-button-icon):not([class*="button-icon"]):hover,
+.d2l-button:hover,
+.d2l-button-main:hover,
+.d2l-button-subtle:hover,
+.d2l-button-filter:hover {
+  background-color: var(--vandy-surface) !important;
+  background-image: none !important;
+  color: var(--vandy-text) !important;
+  border-color: rgba(207, 174, 112, 0.35) !important;
+}
+
+/* Kill Brightspace light-theme white/ghost hovers on interactive chrome */
+html.vandyext-dark .d2l-link:hover,
+html.vandyext-dark .d2l-hoverable:hover,
+html.vandyext-dark .d2l-list-item:hover,
+html.vandyext-dark .d2l-list-item-content:hover,
+html.vandyext-dark d2l-list-item:hover,
+html.vandyext-dark .d2l-menu-item-content:hover,
+html.vandyext-dark .d2l-navigation-s-item:hover,
+html.vandyext-dark .d2l-navigation-s-link:hover,
+html.vandyext-dark .d2l-datalist-item:hover,
+html.vandyext-dark .d2l-datalist-item-actionable:hover,
+html.vandyext-dark tr:hover > td {
+  background-color: rgba(207, 174, 112, 0.1) !important;
+  background-image: none !important;
+}
+
+html.vandyext-dark [style*="background-color: rgb(255"],
+html.vandyext-dark [style*="background-color:rgb(255"],
+html.vandyext-dark [style*="background-color: #fff"],
+html.vandyext-dark [style*="background-color:#fff"],
+html.vandyext-dark [style*="background-color: #FFF"],
+html.vandyext-dark [style*="background-color:#FFF"],
+html.vandyext-dark [style*="background: white"],
+html.vandyext-dark [style*="background:white"],
+html.vandyext-dark [style*="background: #fff"],
+html.vandyext-dark [style*="background:#fff"] {
+  background-color: var(--vandy-surface-2) !important;
+  background-image: none !important;
 }
 
 button:focus,
@@ -526,10 +588,9 @@ d2l-button-icon:focus-within {
 }
 
 /*
- * Desire2Improve / D2L++ (Hacks.css): Brightspace often wraps the course-card
- * "⋮" menu in <d2l-dropdown> with a native <button class="d2l-button-icon"> —
- * not <d2l-button-icon>. Our global `button` rule above paints that gray; D2I
- * clears it with `d2l-dropdown button.d2l-button-icon { background: none }`.
+ * Course-card ⋮ overflow: Brightspace often uses <button class="d2l-button-icon">
+ * inside <d2l-dropdown>, and hides the glyph until card hover — leaving a bare
+ * dark square. Force transparent chrome + always-visible gold dots.
  */
 d2l-dropdown button.d2l-button-icon,
 d2l-card d2l-dropdown button.d2l-button-icon,
@@ -537,34 +598,69 @@ d2l-enrollment-card d2l-dropdown button.d2l-button-icon,
 .d2l-my-courses-container d2l-dropdown button.d2l-button-icon,
 .d2l-enrollments-container d2l-dropdown button.d2l-button-icon,
 .d2l-enrollment-card-grid d2l-dropdown button.d2l-button-icon,
-.d2l-homepage d2l-dropdown button.d2l-button-icon {
-  background: none !important;
+.d2l-homepage d2l-dropdown button.d2l-button-icon,
+d2l-card button.d2l-button-icon,
+d2l-enrollment-card button.d2l-button-icon,
+.d2l-my-courses-container button.d2l-button-icon,
+.d2l-enrollments-container button.d2l-button-icon,
+.d2l-homepage button.d2l-button-icon,
+.d2l-enrollment-card-grid button.d2l-button-icon {
+  background: transparent !important;
   background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
   border-color: transparent !important;
   box-shadow: none !important;
+  color: var(--vandy-gold-bright) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+d2l-dropdown button.d2l-button-icon svg,
+d2l-card button.d2l-button-icon svg,
+d2l-enrollment-card button.d2l-button-icon svg,
+.d2l-homepage button.d2l-button-icon svg,
+.d2l-my-courses-container button.d2l-button-icon svg,
+.d2l-enrollments-container button.d2l-button-icon svg,
+d2l-dropdown button.d2l-button-icon d2l-icon,
+d2l-card button.d2l-button-icon d2l-icon,
+d2l-enrollment-card button.d2l-button-icon d2l-icon {
+  opacity: 1 !important;
+  visibility: visible !important;
+  fill: var(--vandy-gold-bright) !important;
   color: var(--vandy-gold-bright) !important;
 }
 
 d2l-dropdown button.d2l-button-icon:hover,
-d2l-dropdown button.d2l-button-icon:focus {
-  border: 1px solid rgba(207, 174, 112, 0.45) !important;
+d2l-dropdown button.d2l-button-icon:focus,
+d2l-card button.d2l-button-icon:hover,
+d2l-card button.d2l-button-icon:focus,
+d2l-enrollment-card button.d2l-button-icon:hover,
+d2l-enrollment-card button.d2l-button-icon:focus,
+.d2l-homepage button.d2l-button-icon:hover,
+.d2l-homepage button.d2l-button-icon:focus {
+  border: none !important;
   box-shadow: none !important;
   background-color: rgba(207, 174, 112, 0.16) !important;
+  background-image: none !important;
+  border-radius: 8px !important;
 }
 
-/* Same pattern if the opener is a plain button without the dropdown wrapper */
-d2l-card button.d2l-button-icon,
-d2l-enrollment-card button.d2l-button-icon,
-.d2l-my-courses-container button.d2l-button-icon,
-.d2l-enrollments-container button.d2l-button-icon {
-  background: none !important;
-  background-color: transparent !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-  color: var(--vandy-gold-bright) !important;
+/* Always show card action cluster (pin / ⋮) — no hover-gated opacity */
+d2l-card .d2l-card-actions,
+d2l-enrollment-card .d2l-card-actions,
+.d2l-card .d2l-card-actions,
+.d2l-enrollment-card .d2l-card-actions,
+d2l-card [slot="actions"],
+d2l-enrollment-card [slot="actions"],
+.d2l-homepage .d2l-card-actions,
+.d2l-my-courses-container .d2l-card-actions,
+.d2l-enrollments-container .d2l-card-actions {
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
-/* Course card "three dots" actions: transparent default, gold dots */
+/* Course card d2l-button-icon hosts: transparent default, gold dots */
 d2l-card d2l-button-icon,
 d2l-enrollment-card d2l-button-icon,
 .d2l-card d2l-button-icon,
@@ -578,11 +674,13 @@ d2l-enrollment-card d2l-button-icon,
   background: transparent !important;
   background-color: transparent !important;
   border-color: transparent !important;
+  opacity: 1 !important;
   --d2l-button-icon-background-color: transparent !important;
   --d2l-button-icon-background-color-default: transparent !important;
   --d2l-button-icon-background-color-hover-default: rgba(207, 174, 112, 0.16) !important;
   --d2l-theme-background-color-interactive-tertiary-default: transparent !important;
   --d2l-theme-background-color-interactive-secondary-default: transparent !important;
+  --d2l-theme-background-color-interactive-faint-default: transparent !important;
   --d2l-button-icon-fill-color: #f4c430 !important;
   --d2l-button-icon-fill-color-hover: #ffe08a !important;
   --d2l-theme-icon-color-standard: #f4c430 !important;
@@ -597,6 +695,7 @@ d2l-enrollment-card d2l-button-icon:focus,
 .d2l-enrollment-card .d2l-button-icon:hover,
 .d2l-enrollment-card .d2l-button-icon:focus {
   background-color: rgba(207, 174, 112, 0.16) !important;
+  background-image: none !important;
 }
 
 .d2l-button-main,

@@ -8,17 +8,52 @@
     return window.VandyExtSettings?.getCachedSettings?.() ?? null;
   }
 
+  function stripContentGradients() {
+    if (!window.VandyExtSettings?.isInteriorPage?.()) return;
+
+    const candidates = document.querySelectorAll(
+      ".d2l-twopanelselector-side-bg, .d2l-twopanelselector-side, .d2l-page-collapsepane-shadow, .d2l-navigation-shadow-gradient, .d2l-page-main, .d2l-page-main-padding, #ContentView, #ContentModuleTree, .d2l-le-content, .d2l-le-content-header"
+    );
+
+    candidates.forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      const bgImage = getComputedStyle(el).backgroundImage || "";
+      if (!/gradient/i.test(bgImage) && !/gradient/i.test(el.style.backgroundImage || "")) return;
+
+      // Leave intentional "show more" fades alone.
+      if (el.classList.contains("d2l-more-less") || el.closest?.("d2l-more-less")) return;
+
+      el.style.setProperty("background-image", "none", "important");
+      if (/shadow-gradient/i.test(el.className)) {
+        el.style.setProperty("display", "none", "important");
+      }
+    });
+  }
+
   function init() {
     if (document.documentElement.dataset.vandyextInit) return;
     document.documentElement.dataset.vandyextInit = "true";
 
     initCustomLogoReplacement();
     initHomepageWidgetHiding();
+    stripContentGradients();
 
     document.addEventListener("vandyext-settings-applied", () => {
       initCustomLogoReplacement();
       refreshHomepageWidgetHiding();
+      stripContentGradients();
     });
+
+    let gradientScheduled = false;
+    const gradientObserver = new MutationObserver(() => {
+      if (gradientScheduled) return;
+      gradientScheduled = true;
+      requestAnimationFrame(() => {
+        gradientScheduled = false;
+        stripContentGradients();
+      });
+    });
+    gradientObserver.observe(document.documentElement, { childList: true, subtree: true });
   }
 
   function initCustomLogoReplacement() {

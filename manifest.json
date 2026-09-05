@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Vandy Brightspace+",
-  "version": "0.2.0",
+  "version": "0.3.3",
   "description": "Dark theme and Vanderbilt-focused tools for Vanderbilt Brightspace (D2L).",
   "icons": {
     "16": "icons/icon16.png",
@@ -10,6 +10,9 @@
   },
   "permissions": ["storage"],
   "host_permissions": ["https://brightspace.vanderbilt.edu/*"],
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
   "options_ui": {
     "page": "src/options/options.html",
     "open_in_tab": true
@@ -23,17 +26,31 @@
   "content_scripts": [
     {
       "matches": ["https://brightspace.vanderbilt.edu/*"],
+      "js": ["src/content/shadow-persist.js"],
+      "run_at": "document_start",
+      "world": "MAIN",
+      "all_frames": true
+    },
+    {
+      "matches": ["https://brightspace.vanderbilt.edu/*"],
       "js": [
         "src/shared/settings.js",
         "src/content/settings-runtime.js",
         "src/content/shadow-theme.js"
       ],
       "css": ["src/content/theme.css", "src/content/interior-theme.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "all_frames": true
     },
     {
       "matches": ["https://brightspace.vanderbilt.edu/*"],
-      "js": ["src/content/links.js", "src/content/content.js"],
+      "js": [
+        "src/content/links.js",
+        "src/shared/valence.js",
+        "src/content/api-runtime.js",
+        "src/content/courses.js",
+        "src/content/content.js"
+      ],
       "run_at": "document_idle"
     }
   ],

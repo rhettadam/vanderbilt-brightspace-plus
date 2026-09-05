@@ -10,7 +10,7 @@
     <header class="popup-header">
       <p class="popup-kicker">Vanderbilt</p>
       <h1 class="popup-title">Brightspace+</h1>
-      <p class="popup-subtitle">Quick links for brightspace.vanderbilt.edu</p>
+      <p id="popup-user" class="popup-subtitle">Quick links for brightspace.vanderbilt.edu</p>
       <a id="popup-open-settings" class="popup-settings-link" href="#">Open settings</a>
     </header>
     <ul id="popup-links" class="popup-links"></ul>
@@ -21,6 +21,11 @@
         <button type="submit">Search</button>
       </form>
       <a id="popup-rmp-school" href="#" target="_blank" rel="noopener noreferrer">Browse Vanderbilt on RMP</a>
+    </section>
+    <section class="popup-agenda">
+      <h2>Upcoming</h2>
+      <ul id="popup-agenda" class="popup-agenda-list"></ul>
+      <p id="popup-agenda-empty" class="popup-agenda-empty" hidden>No upcoming events synced yet.</p>
     </section>
     <script src="../shared/settings.js"></script>
     <script src="../content/links.js"></script>

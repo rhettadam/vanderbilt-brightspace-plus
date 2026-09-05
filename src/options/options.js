@@ -5,6 +5,8 @@ const navButtons = document.querySelectorAll(".options-nav-btn");
 const panels = document.querySelectorAll(".options-panel");
 const themeGrid = document.getElementById("theme-grid");
 const saveStatus = document.getElementById("save-status");
+const coursesList = document.getElementById("courses-list");
+const coursesEmpty = document.getElementById("courses-empty");
 
 const fields = {
   darkModeEnabled: document.getElementById("setting-dark-mode"),
@@ -17,6 +19,7 @@ const fields = {
   interiorStyling: document.getElementById("setting-interior-styling"),
   calendarStyling: document.getElementById("setting-calendar-styling"),
   shadowTheme: document.getElementById("setting-shadow-theme"),
+  apiIntegrations: document.getElementById("setting-api-integrations"),
   hideHomepageWidgets: document.getElementById("setting-hide-widgets"),
   hiddenHomepageWidgets: document.getElementById("setting-hidden-widgets"),
   goldFocusRings: document.getElementById("setting-focus-rings"),
@@ -30,6 +33,8 @@ const bannerBrightnessValue = document.getElementById("banner-brightness-value")
 
 /** @type {typeof DEFAULT_SETTINGS} */
 let draft = { ...DEFAULT_SETTINGS };
+/** @type {Array<{orgUnitId:string|number, name:string, code?:string}>} */
+let syncedCourses = [];
 
 function showTab(tabId) {
   navButtons.forEach((btn) => {
@@ -43,6 +48,7 @@ function showTab(tabId) {
   });
 
   draft.activeTab = tabId;
+  if (tabId === "courses") renderCoursesList();
 }
 
 function renderThemeCards() {
@@ -96,6 +102,101 @@ function widgetsToText(list) {
   return (list || []).join("\n");
 }
 
+function ensureCourseOverrides() {
+  if (!draft.courseOverrides || typeof draft.courseOverrides !== "object") {
+    draft.courseOverrides = {};
+  }
+  return draft.courseOverrides;
+}
+
+function upsertCourseOverride(id, patch) {
+  const overrides = ensureCourseOverrides();
+  const key = String(id);
+  const current = { ...(overrides[key] || {}) };
+  Object.assign(current, patch);
+
+  const empty =
+    !current.nickname &&
+    !current.accent &&
+    !current.hide;
+
+  if (empty) delete overrides[key];
+  else overrides[key] = current;
+}
+
+function renderCoursesList() {
+  if (!coursesList || !coursesEmpty) return;
+  coursesList.replaceChildren();
+
+  if (!syncedCourses.length) {
+    coursesEmpty.hidden = false;
+    return;
+  }
+
+  coursesEmpty.hidden = true;
+  const overrides = ensureCourseOverrides();
+
+  for (const course of syncedCourses) {
+    const id = String(course.orgUnitId);
+    const ov = overrides[id] || {};
+
+    const row = document.createElement("div");
+    row.className = "course-row";
+    row.dataset.courseId = id;
+
+    const meta = document.createElement("div");
+    meta.className = "course-meta";
+    const name = document.createElement("strong");
+    name.textContent = course.name || `Course ${id}`;
+    name.title = course.name || "";
+    const code = document.createElement("small");
+    code.textContent = course.code ? `${course.code} · ID ${id}` : `ID ${id}`;
+    meta.append(name, code);
+
+    const nick = document.createElement("input");
+    nick.type = "text";
+    nick.placeholder = "Nickname";
+    nick.value = ov.nickname || "";
+    nick.addEventListener("change", () => {
+      upsertCourseOverride(id, { nickname: nick.value.trim() });
+    });
+
+    const accent = document.createElement("input");
+    accent.type = "color";
+    accent.title = "Accent color";
+    accent.value = ov.accent || "#f4c430";
+    accent.addEventListener("change", () => {
+      upsertCourseOverride(id, { accent: accent.value });
+    });
+
+    const hideLabel = document.createElement("label");
+    hideLabel.className = "course-hide";
+    const hide = document.createElement("input");
+    hide.type = "checkbox";
+    hide.checked = Boolean(ov.hide);
+    hide.addEventListener("change", () => {
+      upsertCourseOverride(id, { hide: hide.checked });
+    });
+    hideLabel.append(hide, document.createTextNode("Hide"));
+
+    row.append(meta, nick, accent, hideLabel);
+    coursesList.appendChild(row);
+  }
+}
+
+function loadSyncedCourses() {
+  return new Promise((resolve) => {
+    try {
+      chrome.storage.local.get(["vandyextApiCache"], (data) => {
+        const courses = data?.vandyextApiCache?.courses;
+        resolve(Array.isArray(courses) ? courses : []);
+      });
+    } catch {
+      resolve([]);
+    }
+  });
+}
+
 function readFormIntoDraft() {
   draft.darkModeEnabled = fields.darkModeEnabled.checked;
   draft.fontSize = Number(fields.fontSize.value);
@@ -107,12 +208,14 @@ function readFormIntoDraft() {
   draft.interiorStyling = fields.interiorStyling.checked;
   draft.calendarStyling = fields.calendarStyling.checked;
   draft.shadowTheme = fields.shadowTheme.checked;
+  draft.apiIntegrations = fields.apiIntegrations.checked;
   draft.hideHomepageWidgets = fields.hideHomepageWidgets.checked;
   draft.hiddenHomepageWidgets = parseWidgetList(fields.hiddenHomepageWidgets.value);
   draft.goldFocusRings = fields.goldFocusRings.checked;
   draft.customScrollbars = fields.customScrollbars.checked;
   draft.cardHoverGlow = fields.cardHoverGlow.checked;
   draft.pinStarGold = fields.pinStarGold.checked;
+  ensureCourseOverrides();
 }
 
 function writeDraftToForm() {
@@ -126,6 +229,7 @@ function writeDraftToForm() {
   fields.interiorStyling.checked = draft.interiorStyling;
   fields.calendarStyling.checked = draft.calendarStyling;
   fields.shadowTheme.checked = draft.shadowTheme;
+  fields.apiIntegrations.checked = draft.apiIntegrations;
   fields.hideHomepageWidgets.checked = draft.hideHomepageWidgets;
   fields.hiddenHomepageWidgets.value = widgetsToText(draft.hiddenHomepageWidgets);
   fields.goldFocusRings.checked = draft.goldFocusRings;
@@ -137,6 +241,7 @@ function writeDraftToForm() {
   bannerBrightnessValue.textContent = `${draft.bannerBrightness}%`;
   toggleBannerControls(draft.removeBanner);
   renderThemeCards();
+  renderCoursesList();
 }
 
 function toggleBannerControls(removeBanner) {
@@ -195,8 +300,10 @@ try {
   // Ignore outside extension context.
 }
 
-loadSettings().then((settings) => {
+Promise.all([loadSettings(), loadSyncedCourses()]).then(([settings, courses]) => {
   draft = { ...settings };
+  ensureCourseOverrides();
+  syncedCourses = courses;
   writeDraftToForm();
   showTab(draft.activeTab || "themes");
 });

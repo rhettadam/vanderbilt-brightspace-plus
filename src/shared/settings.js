@@ -20,6 +20,8 @@
     customScrollbars: true,
     cardHoverGlow: true,
     pinStarGold: true,
+    apiIntegrations: true,
+    courseOverrides: {},
   };
 
   const THEME_PRESETS = {
@@ -138,6 +140,10 @@
     if (!THEME_PRESETS[merged.themePreset]) {
       merged.themePreset = DEFAULT_SETTINGS.themePreset;
     }
+    if (!merged.courseOverrides || typeof merged.courseOverrides !== "object") {
+      merged.courseOverrides = {};
+    }
+    merged.apiIntegrations = merged.apiIntegrations !== false;
     return merged;
   }
 

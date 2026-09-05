@@ -21,6 +21,7 @@
       <nav class="options-nav" role="tablist" aria-label="Settings sections">
         <button type="button" class="options-nav-btn active" data-tab="themes">Themes</button>
         <button type="button" class="options-nav-btn" data-tab="layout">Layout</button>
+        <button type="button" class="options-nav-btn" data-tab="courses">Courses</button>
         <button type="button" class="options-nav-btn" data-tab="features">Features</button>
         <button type="button" class="options-nav-btn" data-tab="polish">Polish</button>
         <button type="button" class="options-nav-btn" data-tab="about">About</button>
@@ -103,6 +104,22 @@
           </label>
         </section>
 
+        <!-- Courses -->
+        <section id="panel-courses" class="options-panel" data-panel="courses" hidden>
+          <div class="panel-intro">
+            <h2>Course settings</h2>
+            <p>
+              Nicknames, accent colors, and hide toggles for homepage cards. Open Brightspace once
+              with data sync enabled so your course list appears here.
+            </p>
+          </div>
+          <p id="courses-empty" class="courses-empty" hidden>
+            No synced courses yet. Visit brightspace.vanderbilt.edu while logged in, then reopen
+            settings.
+          </p>
+          <div id="courses-list" class="courses-list"></div>
+        </section>
+
         <!-- Features -->
         <section id="panel-features" class="options-panel" data-panel="features" hidden>
           <div class="panel-intro">
@@ -140,9 +157,18 @@
           <label class="toggle-row">
             <span>
               <strong>Shadow DOM theme injection</strong>
-              <small>Dark tokens inside d2l-* web components</small>
+              <small>Dark tokens inside d2l-* web components (with Lit persistence)</small>
             </span>
             <input id="setting-shadow-theme" type="checkbox" checked />
+            <span class="toggle-slider" aria-hidden="true"></span>
+          </label>
+
+          <label class="toggle-row">
+            <span>
+              <strong>Brightspace data sync</strong>
+              <small>Cache your name and course list via Brightspace APIs (local only)</small>
+            </span>
+            <input id="setting-api-integrations" type="checkbox" checked />
             <span class="toggle-slider" aria-hidden="true"></span>
           </label>
 
@@ -217,7 +243,7 @@
 
           <dl class="about-meta">
             <dt>Version</dt>
-            <dd id="about-version">0.1.0</dd>
+            <dd id="about-version">0.3.3</dd>
             <dt>Site</dt>
             <dd>brightspace.vanderbilt.edu</dd>
           </dl>
