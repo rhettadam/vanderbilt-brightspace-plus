@@ -1,0 +1,22 @@
+{
+  "color_tabs": false,
+  "rolling_period": false,
+  "start_date": 1,
+  "start_hour": 15,
+  "start_minutes": 0,
+  "period": "Week",
+  "sidebar": false,
+  "dash_courses": true,
+  "due_date_headings": true,
+  "complete_assignments": [],
+  "show_locked_assignments": false,
+  "show_confetti": true,
+  "theme_color": "var(--ic-brand-global-nav-bgd)",
+  "dark_mode": false,
+  "show_needs_grading": false,
+  "show_long_overdue": false,
+  "GSCOPE_INT_disabled": false,
+  "clock_24hr": false,
+  "default_list_length": 4,
+  "show_rings": true
+}
