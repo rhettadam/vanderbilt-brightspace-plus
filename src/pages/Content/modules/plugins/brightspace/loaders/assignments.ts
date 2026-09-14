@@ -280,6 +280,69 @@ async function getDropboxFoldersForCourses(
   return perCourse.flat();
 }
 
+type BrightspaceQuiz = {
+  QuizId?: number;
+  Id?: number;
+  Name: string;
+  IsActive?: boolean;
+  DueDate?: string | null;
+  StartDate?: string | null;
+  EndDate?: string | null;
+  CategoryId?: number | null;
+};
+
+function quizDueIso(quiz: BrightspaceQuiz): string | null {
+  return quiz.DueDate || quiz.EndDate || quiz.StartDate || null;
+}
+
+/**
+ * Quizzes tool items (including uncategorized). Same gap as Assignments —
+ * often missing from content/myItems unless linked into Content.
+ */
+async function getQuizzesForCourses(
+  start: Date,
+  end: Date,
+  courses: Course[]
+): Promise<BrightspaceItem[]> {
+  if (!courses.length) return [];
+  const version = await le();
+
+  const perCourse = await mapPool(courses, 4, async (course) => {
+    try {
+      const url = `${baseURL()}/d2l/api/le/${version}/${course.id}/quizzes/`;
+      const quizzes = await getPaginatedRequestBrightspace<BrightspaceQuiz>(
+        url,
+        true
+      );
+
+      return quizzes
+        .filter((quiz) => {
+          if (quiz.IsActive === false) return false;
+          const due = quizDueIso(quiz);
+          if (!due) return false;
+          return dateInWindow(due, start, end);
+        })
+        .map((quiz) => {
+          const id = quiz.QuizId ?? quiz.Id;
+          return {
+            OrgUnitId: course.id,
+            ItemId: id as number | string,
+            ItemName: quiz.Name || 'Quiz',
+            DueDate: quizDueIso(quiz),
+            ItemUrl: `/d2l/lms/quizzing/user/quiz_summary.d2l?qi=${id}&ou=${course.id}`,
+            ActivityType: 4, // Quiz
+            DateCompleted: null,
+          } as BrightspaceItem;
+        });
+    } catch (err) {
+      console.warn(`Tasks: quizzes failed for course ${course.id}`, err);
+      return [] as BrightspaceItem[];
+    }
+  });
+
+  return perCourse.flat();
+}
+
 function buildCalendarItemUrl(ev: BrightspaceCalendarEvent): string {
   const ou = ev.OrgUnitId;
   const entityId = ev.AssociatedEntityId;
@@ -529,13 +592,14 @@ export default async function loadBrightspaceAssignments(
 
   const courses = await loadBrightspaceCourses();
 
-  // Official path = myItems (+ dropbox folders tool, completions, calendar)
+  // Official path = myItems (+ dropbox/quizzes tools, completions, calendar)
   const [
     openOrAny,
     completedOnly,
     completedFeed,
     calendarItems,
     dropboxFolders,
+    quizzes,
   ] = await Promise.all([
     getMyItems(startStr, endStr, courses, 1), // Any
     getMyItems(startStr, endStr, courses, 2), // CompletedOnly
@@ -546,6 +610,7 @@ export default async function loadBrightspaceAssignments(
     ),
     getCalendarDueItems(st.toISOString(), en.toISOString(), courses),
     getDropboxFoldersForCourses(st, en, courses),
+    getQuizzesForCourses(st, en, courses),
   ]);
 
   // Order matters: completed sources first so DateCompleted wins in merge
@@ -555,6 +620,7 @@ export default async function loadBrightspaceAssignments(
       ...completedFeed,
       ...openOrAny,
       ...dropboxFolders,
+      ...quizzes,
       ...calendarItems,
     ])
   );
