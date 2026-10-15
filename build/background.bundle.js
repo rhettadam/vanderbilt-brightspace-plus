@@ -1,0 +1,1 @@
+(()=>{"use strict";chrome.runtime.onInstalled.addListener((function(e){"install"===e.reason&&(chrome.tabs.create({url:"https://brightspace.vanderbilt.edu/d2l/home"}),chrome.storage.sync.set({install_time:(new Date).getTime()}))}))})();

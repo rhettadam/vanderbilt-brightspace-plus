@@ -1,8 +1,7 @@
 # Dependencies
 node_modules/
 
-# Build / packaged extension
-build/
+# Packaged archives (keep build/ tracked for Load unpacked)
 dist/
 *.zip
 *.crx
