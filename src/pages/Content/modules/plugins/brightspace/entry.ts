@@ -1,6 +1,7 @@
 import { BrightspaceLMSConfig } from '.';
 import runApp from '../..';
 import { getOptions } from '../../hooks/useOptions';
+import { OptionsDefaults } from '../../constants';
 import {
   colorFromId,
   loadCustomColors,
@@ -8,15 +9,86 @@ import {
   StoredCustomColors,
 } from '../shared/customColors';
 
-function setStyles() {
+const DEFAULT_NAV = '#002040';
+const THEME_STYLE_ID = 'tfc-brightspace-theme';
+
+function isCustomThemeColor(themeColor?: string): themeColor is string {
+  return Boolean(
+    themeColor &&
+      themeColor !== OptionsDefaults.theme_color &&
+      !themeColor.startsWith('var(')
+  );
+}
+
+function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
+  if (!m) return null;
+  return {
+    r: parseInt(m[1], 16),
+    g: parseInt(m[2], 16),
+    b: parseInt(m[3], 16),
+  };
+}
+
+/** Light Brightspace accents from the user's Options theme color. */
+function applyThemeTint(themeColor?: string) {
+  const color = isCustomThemeColor(themeColor) ? themeColor : DEFAULT_NAV;
+  const rgb = hexToRgb(color);
+  const soft = rgb
+    ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.12)`
+    : 'rgba(0, 32, 64, 0.12)';
+
   document.documentElement.style.setProperty(
     '--ic-brand-font-color-dark',
     'rgb(32, 33, 34)'
   );
   document.documentElement.style.setProperty(
     '--ic-brand-global-nav-bgd',
-    '#002040'
+    color
   );
+  document.documentElement.style.setProperty('--ic-brand-primary', color);
+  document.documentElement.style.setProperty('--tfc-theme-color', color);
+  document.documentElement.style.setProperty('--tfc-theme-soft', soft);
+
+  let style = document.getElementById(THEME_STYLE_ID) as HTMLStyleElement | null;
+  if (!style) {
+    style = document.createElement('style');
+    style.id = THEME_STYLE_ID;
+    document.head.appendChild(style);
+  }
+
+  style.textContent = `
+    /* Subtle page accents — not a full retheme */
+    .d2l-navigation-s-main-wrapper,
+    .d2l-navigation-s {
+      box-shadow: inset 0 -3px 0 0 ${color};
+    }
+    .tfc-brightspace-root {
+      border-top: 3px solid ${color};
+      box-shadow: 0 1px 0 ${soft};
+    }
+    a.d2l-navigation-s-link:hover,
+    .d2l-navigation-s-link:hover,
+    .d2l-link:hover {
+      color: ${color} !important;
+    }
+    .d2l-button-subtle-main:focus-visible,
+    button:focus-visible,
+    a:focus-visible {
+      outline-color: ${color};
+    }
+    .homepage-col-4 .d2l-widget,
+    .homepage-container .d2l-tile {
+      box-shadow: 0 0 0 1px ${soft};
+    }
+  `;
+}
+
+function watchThemeColor() {
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'sync' || !changes.theme_color) return;
+    applyThemeTint(changes.theme_color.newValue as string | undefined);
+  });
 }
 
 function makeColorPicker(
@@ -237,6 +309,11 @@ function waitForOrgHomepage(callback: () => void) {
 }
 
 export default async function BrightspaceEntrypoint() {
+  // Theme tint can apply on any Brightspace page; Tasks widget stays homepage-only.
+  const options = await getOptions();
+  applyThemeTint(options.theme_color);
+  watchThemeColor();
+
   if (!isOrgHomepage()) return;
 
   waitForOrgHomepage(async () => {
@@ -246,7 +323,7 @@ export default async function BrightspaceEntrypoint() {
     const root = document.createElement('div');
     root.style.setProperty('line-height', '1.5');
     root.className = 'd2l-tile d2l-widget tfc-brightspace-root';
-    setStyles();
+    applyThemeTint((await getOptions()).theme_color);
     const mounted = mountRoot(root);
     if (!mounted) {
       root.remove();

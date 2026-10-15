@@ -20,6 +20,7 @@ import IconSubTabs from '../sub-tabs/IconSubTabs';
 import useOptions from '../../hooks/useOptions';
 import { THEME_COLOR } from '../../constants';
 import useCourseStore from '../../hooks/useCourseStore';
+import dueDateColor from '../../utils/dueDateColor';
 
 const ListContainer = styled.div`
   width: 100%;
@@ -294,8 +295,9 @@ export default function TaskList({
       <TaskCard
         assignment={assignment}
         clock24hr={options.clock_24hr}
-        color={courseStore.state[assignment.course_id].color}
+        color={dueDateColor(assignment.due_at)}
         complete={assignmentIsDone(assignment)}
+        courseColor={courseStore.state[assignment.course_id]?.color}
         course_name={courseStore.state[assignment.course_id].name}
         key={key}
         markComplete={markAssignmentFunc(

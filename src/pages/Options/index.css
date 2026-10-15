@@ -111,9 +111,10 @@ body {
 }
 
 #logo {
-  width: 100px;
-  height: 100px;
+  height: 48px;
+  width: auto;
   margin-right: 20px;
+  border-radius: 4px;
 }
 
 #content {

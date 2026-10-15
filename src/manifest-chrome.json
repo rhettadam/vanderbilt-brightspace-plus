@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Vandy Tasks",
-  "description": "Tasks for Canvas–style weekly to-do sidebar for Vanderbilt Brightspace.",
+  "description": "Weekly to-do sidebar for Vanderbilt Brightspace.",
   "version": "1.0.0",
+
   "action": {
     "default_popup": "popup.html"
   },
@@ -22,7 +23,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["icon-128.png", "options.html"],
+      "resources": ["icon-128.png", "custom-vandy-logo.png", "options.html"],
       "matches": ["https://brightspace.vanderbilt.edu/*"]
     }
   ],

@@ -52,6 +52,16 @@ const RightFloat = styled.div`
   align-items: center;
 `;
 
+const BrandLogo = styled.img`
+  height: 22px;
+  width: auto;
+  max-width: 140px;
+  margin-right: 8px;
+  display: block;
+  border-radius: 2px;
+  object-fit: contain;
+`;
+
 export interface HeaderProps {
   dark?: boolean;
   weekStart: Date;
@@ -76,8 +86,11 @@ export default function Header({
       month: 'short',
       day: 'numeric',
     }),
-    end = weekEnd.toLocaleString('en-US', { month: 'short', day: 'numeric' }),
-    tasks = 'Tasks';
+    end = weekEnd.toLocaleString('en-US', { month: 'short', day: 'numeric' });
+  const logoSrc =
+    typeof chrome !== 'undefined' && chrome.runtime?.getURL
+      ? chrome.runtime.getURL('custom-vandy-logo.png')
+      : '';
   function prevClick() {
     if (clickable) {
       onPrevClick();
@@ -91,10 +104,14 @@ export default function Header({
   return (
     <TitleDiv dark={dark}>
       <LeftFloat dark={dark}>
-        <span style={{ marginRight: '4px' }}>{tasks}</span>
+        {logoSrc ? (
+          <BrandLogo alt="Vanderbilt" src={logoSrc} />
+        ) : null}
         <a
+          aria-label="Settings"
           href={chrome.runtime.getURL('options.html')}
           rel="noreferrer"
+          title="Settings"
           target="_blank"
         >
           {SettingsIcon}

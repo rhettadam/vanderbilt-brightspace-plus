@@ -72,6 +72,7 @@ export interface CourseDropdownProps {
   defaultOption?: string;
   noDefault?: boolean;
   instructureStyle?: boolean;
+  onColorChange?: (id: string, color: string) => void;
 }
 
 /*
@@ -88,6 +89,7 @@ export default function CourseDropdown({
   selectedId = '',
   setChoice,
   onCoursePage = false,
+  onColorChange,
 }: CourseDropdownProps): JSX.Element {
   const darkMode = useContext(DarkContext);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -178,6 +180,7 @@ export default function CourseDropdown({
             last
             menuVisible={menuVisible}
             name={selectedChoice.name}
+            onColorChange={onColorChange}
             setCourse={setChoice}
             setMenuVisible={setMenuVisible}
           />
@@ -190,6 +193,9 @@ export default function CourseDropdown({
               last={i === choices.length - 1}
               menuVisible={menuVisible}
               name={choice.name}
+              onColorChange={
+                choice.id && choice.id !== '0' ? onColorChange : undefined
+              }
               setCourse={setChoice}
               setMenuVisible={setMenuVisible}
             />

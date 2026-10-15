@@ -1,13 +1,8 @@
 {
   "name": "vandy-tasks",
   "version": "1.0.0",
-  "description": "Tasks for Canvas–style weekly to-do for Vanderbilt Brightspace (based on UseBetterCanvas/canvas-task-extension).",
-  "homepage": "https://github.com/UseBetterCanvas/canvas-task-extension",
+  "description": "Weekly to-do for Vanderbilt Brightspace.",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/UseBetterCanvas/canvas-task-extension.git"
-  },
   "engines": {
     "npm": ">=8.0.0",
     "node": ">=16.0.0"

@@ -162,6 +162,11 @@ var options = (args) => {
             to: path.join(__dirname, 'build'),
             force: true,
           },
+          {
+            from: 'assets/custom-vandy-logo.png',
+            to: path.join(__dirname, 'build'),
+            force: true,
+          },
         ],
       }),
       new HtmlWebpackPlugin({

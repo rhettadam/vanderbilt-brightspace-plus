@@ -20,6 +20,7 @@ import { useNewCourseStore } from '../../hooks/useCourseStore';
 import { useExperiments } from '../../hooks/useExperiment';
 import { useNewAssignmentStore } from '../../hooks/useAssignmentStore';
 import { LMSConfig } from '../../types/config';
+import { setCustomColors } from '../../plugins/shared/customColors';
 
 export interface TaskContainerProps {
   assignments: FinalAssignment[];
@@ -148,6 +149,11 @@ function TaskContainer({
 
   const exp = useExperiments();
 
+  function handleCourseColorChange(id: string, color: string) {
+    courseStore.updateCourseColor(id, color);
+    setCustomColors(lms.storageKey, { [id]: color });
+  }
+
   return (
     <DarkContext.Provider value={options.dark_mode}>
       <LMSContext.Provider value={lms}>
@@ -155,6 +161,7 @@ function TaskContainer({
           <ExperimentsContext.Provider value={exp}>
             <CourseDropdown
               choices={courseStore.getCourseList(chartCourses)}
+              onColorChange={handleCourseColorChange}
               onCoursePage={!!courseId}
               selectedId={chosenCourseId}
               setChoice={setSelectedCourseId}

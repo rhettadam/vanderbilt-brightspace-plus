@@ -11,21 +11,6 @@ function applyDefaults(options: Options): Options {
   };
 }
 
-/* Set the logo and title to the extension's web store url */
-function setStoreLinks() {
-  // @ts-expect-error: InstallTrigger is only in Firefox
-  const isFirefox = typeof InstallTrigger !== 'undefined';
-  let storeURL =
-    'https://chrome.google.com/webstore/detail/tasks-for-canvas/kabafodfnabokkkddjbnkgbcbmipdlmb';
-  if (isFirefox)
-    storeURL =
-      'https://addons.mozilla.org/en-US/firefox/addon/tasks-for-canvas';
-
-  Array.from(document.getElementsByTagName('a')).forEach((elem) => {
-    if (elem.className === 'store-link') elem.href = storeURL;
-  });
-}
-
 function createDropdownOption(label: string, cb: () => void): HTMLElement {
   const option = document.createElement('div');
   option.className = 'dropdown-option';
@@ -323,7 +308,6 @@ function setBooleanOptions() {
   });
 }
 
-setStoreLinks();
 setWeekdayDropdown();
 setHoursDropdown();
 setMinutesDropdown();

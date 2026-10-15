@@ -29,7 +29,7 @@ if (CanvasLMSConfig.isActive) {
   mutation observer waits for sidebar to load then injects content
   */
 
-  console.log('Tasks for Canvas: Canvas detected');
+  console.log('Vandy Tasks: Canvas detected');
 
   CanvasLMSEntrypoint();
 
@@ -40,15 +40,15 @@ if (CanvasLMSConfig.isActive) {
     InstallSettingsEntrypoint();
   }
 } else if (isGradescope) {
-  console.log('Tasks for Canvas: Gradescope detected');
+  console.log('Vandy Tasks: Gradescope detected');
 
   GradescopeEntrypoint();
 } else if (isBlackboard) {
-  console.log('Tasks for Canvas: Blackboard detected');
+  console.log('Vandy Tasks: Blackboard detected');
 
   BlackboardEntrypoint();
 } else if (isBrightspace) {
-  console.log('Tasks for Canvas: Brightspace detected');
+  console.log('Vandy Tasks: Brightspace detected');
 
   BrightspaceEntrypoint();
 }

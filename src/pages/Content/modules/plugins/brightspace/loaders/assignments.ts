@@ -343,6 +343,98 @@ async function getQuizzesForCourses(
   return perCourse.flat();
 }
 
+type BrightspaceForum = {
+  ForumId: number;
+  Name?: string;
+  IsHidden?: boolean;
+};
+
+type BrightspaceDiscussionTopic = {
+  ForumId?: number;
+  TopicId: number;
+  Name: string;
+  IsHidden?: boolean;
+  DueDate?: string | null;
+  StartDate?: string | null;
+  EndDate?: string | null;
+};
+
+function discussionDueIso(topic: BrightspaceDiscussionTopic): string | null {
+  return topic.DueDate || topic.EndDate || topic.StartDate || null;
+}
+
+/**
+ * Discussion topics with due dates. Same gap as dropbox/quizzes —
+ * often missing from content/myItems unless linked into Content.
+ */
+async function getDiscussionsForCourses(
+  start: Date,
+  end: Date,
+  courses: Course[]
+): Promise<BrightspaceItem[]> {
+  if (!courses.length) return [];
+  const version = await le();
+
+  const perCourse = await mapPool(courses, 3, async (course) => {
+    try {
+      const forumsUrl = `${baseURL()}/d2l/api/le/${version}/${
+        course.id
+      }/discussions/forums/`;
+      const forums = await getPaginatedRequestBrightspace<BrightspaceForum>(
+        forumsUrl,
+        true
+      );
+
+      const visibleForums = forums.filter((f) => !f.IsHidden);
+      const perForum = await mapPool(visibleForums, 3, async (forum) => {
+        try {
+          const topicsUrl = `${baseURL()}/d2l/api/le/${version}/${
+            course.id
+          }/discussions/forums/${forum.ForumId}/topics/`;
+          const topics =
+            await getPaginatedRequestBrightspace<BrightspaceDiscussionTopic>(
+              topicsUrl,
+              true
+            );
+
+          return topics
+            .filter((topic) => {
+              if (topic.IsHidden) return false;
+              const due = discussionDueIso(topic);
+              if (!due) return false;
+              return dateInWindow(due, start, end);
+            })
+            .map(
+              (topic) =>
+                ({
+                  OrgUnitId: course.id,
+                  ItemId: topic.TopicId,
+                  ItemName: topic.Name || 'Discussion',
+                  DueDate: discussionDueIso(topic),
+                  ItemUrl: `/d2l/le/${course.id}/discussions/topics/${topic.TopicId}/View`,
+                  ActivityType: 6, // DiscussionTopic
+                  DateCompleted: null,
+                }) as BrightspaceItem
+            );
+        } catch (err) {
+          console.warn(
+            `Tasks: discussion topics failed for forum ${forum.ForumId} in ${course.id}`,
+            err
+          );
+          return [] as BrightspaceItem[];
+        }
+      });
+
+      return perForum.flat();
+    } catch (err) {
+      console.warn(`Tasks: discussions failed for course ${course.id}`, err);
+      return [] as BrightspaceItem[];
+    }
+  });
+
+  return perCourse.flat();
+}
+
 function buildCalendarItemUrl(ev: BrightspaceCalendarEvent): string {
   const ou = ev.OrgUnitId;
   const entityId = ev.AssociatedEntityId;
@@ -355,7 +447,7 @@ function buildCalendarItemUrl(ev: BrightspaceCalendarEvent): string {
       return `/d2l/lms/quizzing/user/quiz_summary.d2l?qi=${entityId}&ou=${ou}`;
     }
     if (type.includes('discuss')) {
-      return `/d2l/le/${ou}/discussions/topics/${entityId}`;
+      return `/d2l/le/${ou}/discussions/topics/${entityId}/View`;
     }
     if (type.includes('lti') || type.includes('external')) {
       return `/d2l/le/ltiadvantage/${ou}/deepLinks/${entityId}`;
@@ -572,6 +664,138 @@ async function enrichSubmissionStatus(
   });
 }
 
+type BrightspaceGradeValue = {
+  GradeObjectIdentifier?: string | number;
+  GradeObjectName?: string;
+  DisplayedGrade?: string | null;
+  PointsNumerator?: number | null;
+  PointsDenominator?: number | null;
+  LastModified?: string | null;
+};
+
+type BrightspaceGradeObject = {
+  Id: number;
+  Name?: string;
+  MaxPoints?: number | null;
+  AssociatedTool?: { ToolId?: number; ToolItemId?: number } | null;
+};
+
+type MatchedGrade = {
+  score: number;
+  points_possible: number;
+  grade: string;
+  graded_at: string;
+};
+
+function gradeFromValue(
+  value: BrightspaceGradeValue,
+  maxPoints?: number | null
+): MatchedGrade | null {
+  const numerator = value.PointsNumerator;
+  const denominator =
+    value.PointsDenominator ??
+    (typeof maxPoints === 'number' ? maxPoints : null);
+  const displayed = (value.DisplayedGrade || '').trim();
+
+  const hasNumeric =
+    typeof numerator === 'number' && !Number.isNaN(numerator);
+  if (!hasNumeric && !displayed) return null;
+
+  const score = hasNumeric ? numerator : 0;
+  const points_possible =
+    typeof denominator === 'number' && !Number.isNaN(denominator)
+      ? denominator
+      : 0;
+
+  return {
+    score,
+    points_possible,
+    grade: displayed || String(score),
+    graded_at: value.LastModified || '',
+  };
+}
+
+/**
+ * Pull the student's gradebook values and attach score / points to matching tasks.
+ */
+async function enrichGrades(
+  assignments: FinalAssignment[]
+): Promise<FinalAssignment[]> {
+  const courseIds = Array.from(
+    new Set(
+      assignments
+        .map((a) => String(a.course_id))
+        .filter((id) => id && id !== '0')
+    )
+  );
+  if (!courseIds.length) return assignments;
+
+  const version = await le();
+  const byName = new Map<string, MatchedGrade>();
+  const byToolItem = new Map<string, MatchedGrade>();
+
+  await mapPool(courseIds, 3, async (courseId) => {
+    try {
+      const [values, objects] = await Promise.all([
+        getPaginatedRequestBrightspace<BrightspaceGradeValue>(
+          `${baseURL()}/d2l/api/le/${version}/${courseId}/grades/values/myGradeValues/`,
+          true
+        ).catch(() => [] as BrightspaceGradeValue[]),
+        getPaginatedRequestBrightspace<BrightspaceGradeObject>(
+          `${baseURL()}/d2l/api/le/${version}/${courseId}/grades/`,
+          true
+        ).catch(() => [] as BrightspaceGradeObject[]),
+      ]);
+
+      const objectById = new Map<string, BrightspaceGradeObject>();
+      for (const obj of objects) {
+        objectById.set(String(obj.Id), obj);
+      }
+
+      for (const value of values) {
+        const obj = objectById.get(String(value.GradeObjectIdentifier));
+        const matched = gradeFromValue(value, obj?.MaxPoints);
+        if (!matched) continue;
+
+        const nameKey = `${courseId}:${normalizeName(
+          value.GradeObjectName || obj?.Name || ''
+        )}`;
+        if (nameKey.endsWith(':')) continue;
+        byName.set(nameKey, matched);
+
+        const toolItemId = obj?.AssociatedTool?.ToolItemId;
+        if (toolItemId != null) {
+          byToolItem.set(`${courseId}:${toolItemId}`, matched);
+        }
+      }
+    } catch (err) {
+      console.warn(`Tasks: grades failed for course ${courseId}`, err);
+    }
+    return null;
+  });
+
+  return assignments.map((a) => {
+    const nameKey = `${a.course_id}:${normalizeName(a.name)}`;
+    const dropboxId = extractDropboxId(a);
+    const quizId = extractQuizId(a);
+    const matched =
+      byName.get(nameKey) ||
+      (dropboxId ? byToolItem.get(`${a.course_id}:${dropboxId}`) : undefined) ||
+      (quizId ? byToolItem.get(`${a.course_id}:${quizId}`) : undefined);
+
+    if (!matched) return a;
+    return {
+      ...a,
+      graded: true,
+      submitted: true,
+      score: matched.score,
+      points_possible: matched.points_possible || a.points_possible,
+      grade: matched.grade,
+      graded_at: matched.graded_at || a.graded_at,
+    };
+  });
+}
+
 export default async function loadBrightspaceAssignments(
   startDate: Date,
   endDate: Date,
@@ -592,7 +816,7 @@ export default async function loadBrightspaceAssignments(
 
   const courses = await loadBrightspaceCourses();
 
-  // Official path = myItems (+ dropbox/quizzes tools, completions, calendar)
+  // Official path = myItems (+ dropbox/quizzes/discussions, completions, calendar)
   const [
     openOrAny,
     completedOnly,
@@ -600,6 +824,7 @@ export default async function loadBrightspaceAssignments(
     calendarItems,
     dropboxFolders,
     quizzes,
+    discussions,
   ] = await Promise.all([
     getMyItems(startStr, endStr, courses, 1), // Any
     getMyItems(startStr, endStr, courses, 2), // CompletedOnly
@@ -611,6 +836,7 @@ export default async function loadBrightspaceAssignments(
     getCalendarDueItems(st.toISOString(), en.toISOString(), courses),
     getDropboxFoldersForCourses(st, en, courses),
     getQuizzesForCourses(st, en, courses),
+    getDiscussionsForCourses(st, en, courses),
   ]);
 
   // Order matters: completed sources first so DateCompleted wins in merge
@@ -621,11 +847,13 @@ export default async function loadBrightspaceAssignments(
       ...openOrAny,
       ...dropboxFolders,
       ...quizzes,
+      ...discussions,
       ...calendarItems,
     ])
   );
   fromApi = dedupeAssignments(fromApi);
   fromApi = await enrichSubmissionStatus(fromApi);
+  fromApi = await enrichGrades(fromApi);
 
   const assignmentSources = await Promise.all([
     Promise.resolve(fromApi),

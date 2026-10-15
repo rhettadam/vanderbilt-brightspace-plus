@@ -21,7 +21,10 @@ const StyledButton = styled.div<StyledButtonProps>`
     cursor: pointer;
     background: rgba(150, 150, 150, 0.2);
   }
-  display: ${(props) => (props.menuVisible ? 'block' : 'none')};
+  display: ${(props) => (props.menuVisible ? 'flex' : 'none')};
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   color: ${(props) => props.color};
   ${(props) =>
     props.last
@@ -32,6 +35,38 @@ const StyledButton = styled.div<StyledButtonProps>`
       : ''}
 `;
 
+const CourseName = styled.span`
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const ColorSwatch = styled.label<{ color: string }>`
+  position: relative;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  background-color: ${(props) => props.color};
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+
+  input[type='color'] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+`;
+
 export interface CourseButtonProps {
   name: string;
   color: string;
@@ -40,6 +75,7 @@ export interface CourseButtonProps {
   setCourse: (id: string) => void;
   menuVisible: boolean;
   setMenuVisible: (menuVisible: boolean) => void;
+  onColorChange?: (id: string, color: string) => void;
 }
 
 /*
@@ -53,11 +89,24 @@ export default function CourseButton({
   setCourse,
   menuVisible,
   setMenuVisible,
+  onColorChange,
 }: CourseButtonProps): JSX.Element {
   function handleClick() {
     setCourse(id);
     setMenuVisible(false);
   }
+
+  function handleColorClick(e: React.MouseEvent) {
+    e.stopPropagation();
+  }
+
+  function handleColorChange(e: React.ChangeEvent<HTMLInputElement>) {
+    e.stopPropagation();
+    if (id && onColorChange) onColorChange(id, e.target.value);
+  }
+
+  const canEditColor = Boolean(id && onColorChange);
+
   return (
     <StyledButton
       color={color}
@@ -65,7 +114,22 @@ export default function CourseButton({
       menuVisible={menuVisible}
       onClick={handleClick}
     >
-      {name}
+      <CourseName>{name}</CourseName>
+      {canEditColor ? (
+        <ColorSwatch
+          color={color}
+          onClick={handleColorClick}
+          title="Change course color"
+        >
+          <input
+            aria-label={`Change color for ${name}`}
+            onChange={handleColorChange}
+            onClick={handleColorClick}
+            type="color"
+            value={/^#[0-9A-Fa-f]{6}$/.test(color) ? color : '#4989F4'}
+          />
+        </ColorSwatch>
+      ) : null}
     </StyledButton>
   );
 }

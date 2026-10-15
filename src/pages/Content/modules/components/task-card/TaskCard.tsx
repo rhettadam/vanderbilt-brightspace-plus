@@ -58,6 +58,25 @@ export const TaskContainer = styled.div.attrs(
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    position: relative;
+  `,
+  GradeBadge = styled.div<DarkProps>`
+    position: absolute;
+    right: 6px;
+    bottom: 4px;
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 1.2;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: ${(props) =>
+      props.dark ? 'var(--tfc-dark-mode-text-primary)' : '#1f2937'};
+    background-color: ${(props) =>
+      props.dark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)'};
+    max-width: 45%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   `,
   TaskLink = styled.a<DarkProps & AnimatedProps>`
     color: ${(props) =>
@@ -152,7 +171,10 @@ export const TaskContainer = styled.div.attrs(
 export interface TaskProps {
   assignment?: FinalAssignment;
   complete?: boolean;
+  /** Left strip color — due-date urgency for assignments. */
   color?: string;
+  /** Course name text color — user-assigned course color. */
+  courseColor?: string;
   course_name?: string;
   markComplete?: () => void;
   markDeleted?: () => void;
@@ -183,6 +205,7 @@ export default function TaskCard({
   complete = AssignmentDefaults.marked_complete,
   course_name,
   color,
+  courseColor,
   markComplete,
   markDeleted,
   skeleton,
@@ -190,6 +213,7 @@ export default function TaskCard({
   clock24hr = false,
 }: TaskProps): JSX.Element {
   const lms = useContext(LMSContext);
+  const nameColor = courseColor || color;
   const [due_date, due_time] = fmtDate(assignment.due_at, clock24hr);
   const gradedSince = assignment.graded_at
     ? fmtDateSince(assignment.graded_at)
@@ -199,7 +223,8 @@ export default function TaskCard({
     window.location.href = assignment.html_url;
   }
   // if on completed tab, display grade even if it would normally be considered "ungraded" (i.e. 0-point grade)
-  const display_grade = complete && assignmentHasGrade(assignment);
+  const has_grade = assignmentHasGrade(assignment);
+  const display_grade = complete && has_grade;
   const is_instructor =
     assignment.needs_grading_count && assignment.type !== AssignmentType.NOTE;
   const icon =
@@ -213,6 +238,16 @@ export default function TaskCard({
       ? 'Submitted'
       : '';
   const dueText = ` ${due_date} at ${due_time}`;
+  const gradeBadgeText = (() => {
+    if (!has_grade) return '';
+    if (assignment.grade === 'Excused') return 'Excused';
+    const score = roundAssignmentScore(assignment.score);
+    if (assignment.points_possible) {
+      return `${score}/${roundAssignmentScore(assignment.points_possible)}`;
+    }
+    if (assignment.grade) return String(assignment.grade);
+    return String(score);
+  })();
   const gradedAtText = !display_grade
     ? ''
     : assignment.grade === 'Excused'
@@ -269,7 +304,7 @@ export default function TaskCard({
       </TaskLeft>
       <TaskInfo dark={darkMode}>
         <TaskTop>
-          <CourseCodeText color={color}>
+          <CourseCodeText color={nameColor}>
             {!skeleton ? course_name : <SkeletonCourseCode dark={darkMode} />}
           </CourseCodeText>
           {!skeleton && !is_instructor ? ( // assignments that need grading should not be marked manually
@@ -294,7 +329,9 @@ export default function TaskCard({
         <TaskLink dark={darkMode} href={assignment.html_url}>
           {!skeleton ? assignment.name : <SkeletonTitle dark={darkMode} />}
         </TaskLink>
-        <TaskDetailsText>
+        <TaskDetailsText
+          style={gradeBadgeText ? { paddingRight: '56px' } : undefined}
+        >
           {skeleton ? (
             <SkeletonInfo dark={darkMode} />
           ) : !complete || is_instructor ? (
@@ -321,11 +358,18 @@ export default function TaskCard({
                 ''
               )}
               {!display_grade ? <strong>{gradedText}</strong> : gradedText}
-              <strong>{gradedAtText}</strong>
-              {gradedAtText && gradedSince ? ' | ' + gradedSince : ''}
+              {!gradeBadgeText ? <strong>{gradedAtText}</strong> : ''}
+              {!gradeBadgeText && gradedAtText && gradedSince
+                ? ' | ' + gradedSince
+                : ''}
             </>
           )}
         </TaskDetailsText>
+        {!skeleton && gradeBadgeText ? (
+          <GradeBadge dark={darkMode} title="Grade">
+            {gradeBadgeText}
+          </GradeBadge>
+        ) : null}
       </TaskInfo>
     </TaskContainer>
   );
